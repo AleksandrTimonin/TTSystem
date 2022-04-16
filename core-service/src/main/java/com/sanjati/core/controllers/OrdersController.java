@@ -3,6 +3,8 @@ package com.sanjati.core.controllers;
 
 import com.sanjati.api.core.OrderDetailsDto;
 import com.sanjati.api.core.OrderDto;
+import com.sanjati.api.core.RolesDto;
+import com.sanjati.api.core.SuccessCreatedDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.converters.OrderConverter;
 import com.sanjati.core.services.OrderService;
@@ -10,12 +12,11 @@ import lombok.RequiredArgsConstructor;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -25,28 +26,30 @@ public class OrdersController {
     private final OrderConverter orderConverter;
 
     @GetMapping("/getRole")
-    public List<String> getRoles(@RequestHeader String username, @RequestHeader String role) {
+    public RolesDto getRoles(@RequestHeader String username, @RequestHeader String role) {
 
-        ArrayList<String> roles = new ArrayList<>();
-        if(role.contains("ROLE_USER")) roles.add("ROLE_USER");
-        if(role.contains("ROLE_EXECUTOR")) roles.add("ROLE_EXECUTOR");
-        if(role.contains("ROLE_MANAGER")) roles.add("ROLE_MANAGER");
-        if(role.contains("ROLE_SENIOR")) roles.add("ROLE_SENIOR");
-        if(role.contains("ROLE_ADMIN")) roles.add("ROLE_ADMIN");
+       RolesDto roles = new RolesDto(role);
 
         return roles;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
-        orderService.createOrder(username, orderDetailsDto);
+    public SuccessCreatedDto createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
+        return orderService.createOrder(username, orderDetailsDto);
     }
 
     @GetMapping
-    public List<OrderDto> getCurrentUserOrders(@RequestHeader String username, @RequestHeader String role) {
-        return orderService.findOrdersByUsername(username).stream()
-                .map(orderConverter::entityToDto).collect(Collectors.toList());
+    public Page<OrderDto> getCurrentUserOrders(@RequestHeader String username, @RequestHeader String role,
+                                               @RequestParam(name = "p", defaultValue = "1") Integer page,
+                                               @RequestParam(name = "old_date", required = false) String oldDate,
+                                               @RequestParam(name = "new_date", required = false) String newDate) {
+        if (page < 1) {
+            page = 1;
+        }
+        return orderService.findAllByUsername(oldDate,newDate,page,username).map(
+                p->orderConverter.entityToDto(p)
+        );
     }
 
     @GetMapping("/{id}")

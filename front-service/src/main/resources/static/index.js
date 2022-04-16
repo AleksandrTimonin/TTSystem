@@ -73,7 +73,7 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
                                 method: 'GET'
                             }).then(function (response) {
                                 console.log(response.data);
-                                $localStorage.allowance = response.data;
+                                $localStorage.allowance = response.data.roles;
 
                             });
 
@@ -82,20 +82,26 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
                     $location.path('/');
                 }
             }, function errorCallback(response) {
+
                 console.log('login error');
+                $rootScope.tryToLogout();
             });
 
     };
 
 
     $rootScope.tryToLogout = function () {
+
         $scope.clearUser();
+
         $scope.user = null;
-        $localStorage.allowance = null;
+
+
         $location.path('/');
     };
 
     $scope.clearUser = function () {
+        delete $localStorage.allowance;
         delete $localStorage.ttsystemUser;
         $http.defaults.headers.common.Authorization = '';
     };

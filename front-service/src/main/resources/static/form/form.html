@@ -4,11 +4,14 @@
     <form novalidate>
         <input class="form-control" type="text" placeholder="название" ng-model="orderDetails.title">
         <p></p>
-        <input class="form-control" type="text" placeholder="описание" ng-model="orderDetails.description">
+        <textarea class="form-control" placeholder="описание" rows="6" ng-model="orderDetails.description"></textarea>
         <p></p>
 
     </form>
 
     <button class="btn btn-primary" ng-click="send()" >отправить</button>
+    <div id="Alert"></div>
+
+
 
 </div>

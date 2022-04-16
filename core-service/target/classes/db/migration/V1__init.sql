@@ -6,8 +6,8 @@ create table orders
     description         varchar(2000) not null,
     username            varchar(100) not null,
 
-    executor            varchar(100) not null,
-    executor_commit     varchar(2000) not null,
+    executor            varchar(100),
+    executor_commit     varchar(2000),
 
     status              varchar(16) not null,
 

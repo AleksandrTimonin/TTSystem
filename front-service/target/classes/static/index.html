@@ -30,13 +30,10 @@
                 <li class="nav-item" ng-show="isUserLoggedIn()">
                     <a class="nav-link" href="#!/orders">Мои заявки</a>
                 </li>
-
                 <li class="nav-item" ng-show="isUserLoggedIn()">
                     <a class="nav-link" href="#!/personal">Персональное</a>
                 </li>
-                <li class="nav-item" ng-show="isUserLoggedIn()&&isAllowed('ROLE_SENIOR')">
-                    <a class="nav-link" href="#!/personal">Статистика</a>
-                </li>
+
 
                 <li class="nav-item" ng-show="!isUserLoggedIn()">
                     <form class="align-middle" ng-submit="tryToAuth()">
