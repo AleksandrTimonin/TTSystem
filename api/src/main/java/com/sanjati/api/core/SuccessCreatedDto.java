@@ -1,6 +1,6 @@
 package com.sanjati.api.core;
 
-public class SuccessCreatedDto extends SuccessDto {
+public class SuccessCreatedDto{
     private String date;
     private Long id;
 

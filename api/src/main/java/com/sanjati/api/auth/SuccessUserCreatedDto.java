@@ -1,8 +1,8 @@
 package com.sanjati.api.auth;
 
-import com.sanjati.api.hw.Dto;
 
-public class SuccessUserCreatedDto implements Dto {
+
+public class SuccessUserCreatedDto {
     String username;
     String date;
     Long id;

@@ -1,8 +1,8 @@
 package com.sanjati.api.exceptions;
 
-import com.sanjati.api.hw.AppErrorReport;
 
-public class AppError implements AppErrorReport {
+
+public class AppError  {
     private String code;
     private String message;
 
