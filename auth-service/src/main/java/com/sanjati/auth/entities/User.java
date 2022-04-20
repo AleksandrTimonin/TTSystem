@@ -17,6 +17,9 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "actually")
+    private Boolean actually;
+
     @Column(name = "username")
     private String username;
 

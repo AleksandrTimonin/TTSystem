@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     public Optional<User> findByUsername(String username) {
@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
     public SuccessUserCreatedDto createNewUser(UserDto userDto){
         List<Role> roles = new ArrayList<>();
         roles.add(roleRepository.getById(1L));
-        User user = userRepository.save(UserConverter.dtoToEntity(userDto,roles));
+        User user = userRepository.save(UserConverter.registrationDtoToEntity(userDto,roles));
 
         return new SuccessUserCreatedDto(user.getUsername(), user.getCreatedAt().format(formatter), user.getId());
 

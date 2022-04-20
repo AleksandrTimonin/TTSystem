@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class UserConverter {
-    public static UserDto modelToDto(User user){
+    public static UserDto modelToDto(User user){// для скведений о себе
         return new UserDto(user.getFirstName(),
                 user.getLastName(),
                 user.getPatronymic(),
@@ -19,7 +19,7 @@ public class UserConverter {
                 user.getOffice(),
                 user.getBuilding());
     }
-    public static User dtoToEntity(UserDto dto, List<Role> roles){
+    public static User registrationDtoToEntity(UserDto dto, List<Role> roles){// для регистрации
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setFirstName(dto.getFirstName());
@@ -31,6 +31,7 @@ public class UserConverter {
         user.setOffice(dto.getOffice());
         user.setBuilding(dto.getBuilding());
         user.setRoles(roles);
+        user.setActually(true);
 
         return user;
     }

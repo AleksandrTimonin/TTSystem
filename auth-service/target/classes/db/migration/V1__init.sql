@@ -1,6 +1,7 @@
 create table users
 (
     id         bigserial primary key,
+    actually   boolean not null,
     username   varchar(36) unique,
     password   varchar(80) not null,
 
