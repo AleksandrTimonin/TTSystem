@@ -2,5 +2,19 @@
     <p></p>
     <h3>персональное</h3>
     <p></p>
+    <div class="accordion accordion-flush" id="accordion" ng-repeat="o in OrdersPage.content">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="fh{{o.id}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fc{{o.id}}" aria-expanded="false" aria-controls="fc{{o.id}}">
+                    {{o.id}} : {{o.title}}
+                </button>
+            </h2>
+            <div id="fc{{o.id}}" class="accordion-collapse collapse" aria-labelledby="fh{{o.id}}" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    {{o.status}} : {{o.time}} : {{o.description}}
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

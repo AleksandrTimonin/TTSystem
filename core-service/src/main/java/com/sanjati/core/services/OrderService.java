@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrdersRepository ordersRepository;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
 
@@ -39,7 +40,7 @@ public class OrderService {
         order = ordersRepository.save(order);
 
         LocalDateTime date = order.getCreatedAt();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         String formattedDateTime = date.format(formatter);
 
         SuccessCreatedDto result = new SuccessCreatedDto(formattedDateTime,order.getId());

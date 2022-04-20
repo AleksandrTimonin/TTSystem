@@ -10,6 +10,7 @@ public class UserDto {
     private String phone;
     private String office;
     private String building;
+    private String username;
 
     public UserDto(String firstName, String lastName, String patronymic, String email, String company, String phone, String office, String building) {
         this.firstName = firstName;
@@ -20,6 +21,15 @@ public class UserDto {
         this.phone = phone;
         this.office = office;
         this.building = building;
+
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {

@@ -39,6 +39,10 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
+    @PostMapping("/auth/reg")
+    public ResponseEntity<?> createAuthToken(@RequestBody UserDto user) {
+        return ResponseEntity.ok(userService.createNewUser(user));
+    }
     @GetMapping("/data")
     public UserDto getFullData(@RequestHeader String username){
         User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));

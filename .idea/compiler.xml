@@ -9,10 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="auth-service" />
         <module name="front-service" />
-        <module name="api" />
         <module name="statistics-service" />
         <module name="gateway-service" />
+        <module name="api" />
         <module name="core-service" />
+        <module name="launcher" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -29,6 +30,7 @@
       <module name="front-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
       <module name="gateway2" options="-parameters" />
+      <module name="launcher" options="-parameters" />
       <module name="statistics-service" options="-parameters" />
       <module name="untitled" options="-parameters" />
     </option>
