@@ -7,6 +7,7 @@ import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.entities.Order;
 import com.sanjati.core.repositories.OrdersRepository;
 import com.sanjati.core.repositories.specifications.OrderSpecifications;
+import io.netty.util.AsyncMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -78,5 +79,25 @@ public class OrderService {
         Order order = ordersRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Order not found"));
         order.setStatus(status);
 
+    }
+
+    public Page<Order> findAllOrders(String oldDate, String newDate, Integer page) {
+        Specification<Order> spec = Specification.where(null);
+
+
+
+        if (oldDate != null) {
+            LocalDateTime oldDateFormat = LocalDateTime.parse(oldDate.substring(0,22));
+            spec = spec.and(OrderSpecifications.timeGreaterOrEqualsThan(oldDateFormat));
+            log.warn(oldDate);
+        }
+        if (newDate != null) {
+            LocalDateTime newDateFormat = LocalDateTime.parse(newDate.substring(0,22));
+            log.warn(newDate);
+            spec = spec.and(OrderSpecifications.timeLessThanOrEqualsThan(newDateFormat));
+        }
+
+
+        return ordersRepository.findAll(spec,PageRequest.of(page-1,10));
     }
 }

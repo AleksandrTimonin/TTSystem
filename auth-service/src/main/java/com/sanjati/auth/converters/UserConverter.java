@@ -29,6 +29,7 @@ public class UserConverter {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setPassword(securityConfig.passwordEncoder().encode(dto.getPassword()));
+        user.setActually(true);
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setPatronymic(dto.getPatronymic());

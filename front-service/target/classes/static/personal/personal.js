@@ -2,7 +2,7 @@ angular.module('ttsystem-front').controller('personalController', function ($sco
     const contextPath = 'http://localhost:5555/core/';
  $scope.loadOrders = function (pageIndex = 1) {
             $http({
-                url: contextPath + 'api/v1/orders',
+                url: contextPath + 'api/v1/orders/management',
                 method: 'GET',
                 params: {
                     p: pageIndex,
@@ -24,4 +24,7 @@ angular.module('ttsystem-front').controller('personalController', function ($sco
         }
 
     $scope.loadOrders();
+    $scope.checkAllowance = function(allowance){
+        return $rootScope.isAllowed(allowance);
+    }
 });

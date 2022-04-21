@@ -3,6 +3,7 @@ create table users
     id         bigserial primary key,
     username   varchar(36) unique,
     password   varchar(80) not null,
+    actually    boolean not null,
 
     first_name   varchar(80) not null,
     last_name   varchar(80) not null,
@@ -41,7 +42,8 @@ values  ('ROLE_USER'),
         ('ROLE_EXECUTOR'),
         ('ROLE_MANAGER'),
         ('ROLE_SENIOR'),
-        ('ROLE_ADMIN');
+        ('ROLE_ADMIN'),
+        ('ROLE_EMPLOYEE');
 
 
 
@@ -58,7 +60,11 @@ values (1, 1),
        (2, 2),
        (3, 3),
        (4, 4),
-       (5, 5);
+       (5, 5),
+       (2, 6),
+       (3, 6),
+       (4, 6),
+       (5, 6);
 
 
 

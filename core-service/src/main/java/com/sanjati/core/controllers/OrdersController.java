@@ -51,6 +51,18 @@ public class OrdersController {
                 p->orderConverter.entityToDto(p)
         );
     }
+    @GetMapping("/management")
+    public Page<OrderDto> getAllOrders(@RequestHeader String username, @RequestHeader String role,
+                                               @RequestParam(name = "p", defaultValue = "1") Integer page,
+                                               @RequestParam(name = "old_date", required = false) String oldDate,
+                                               @RequestParam(name = "new_date", required = false) String newDate) {
+        if (page < 1) {
+            page = 1;
+        }
+        return orderService.findAllOrders(oldDate,newDate,page).map(
+                p->orderConverter.entityToDto(p)
+        );
+    }
 
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable Long id, @RequestHeader String role) {

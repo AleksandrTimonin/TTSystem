@@ -2,7 +2,7 @@ angular.module('ttsystem-front').controller('personalController', function ($sco
     const contextPath = 'http://localhost:5555/core/';
  $scope.loadOrders = function (pageIndex = 1) {
             $http({
-                url: contextPath + 'api/v1/orders',
+                url: contextPath + 'api/v1/orders/management',
                 method: 'GET',
                 params: {
                     p: pageIndex,
@@ -22,6 +22,11 @@ angular.module('ttsystem-front').controller('personalController', function ($sco
                 }
             return arr;
         }
+    if($rootScope.isAllowed('EMPLOYEE')){
+        $scope.loadOrders();
+    }
 
-    $scope.loadOrders();
+
+
+
 });
