@@ -1,5 +1,5 @@
 angular.module('ttsystem-front').controller('formController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/cart/';
+    const contextPath = 'http://localhost:5555/core/api/v1';
     var alertPlaceholder = document.getElementById('Alert')
 
 
@@ -12,7 +12,7 @@ angular.module('ttsystem-front').controller('formController', function ($scope, 
 
     $scope.send = function () {
             $http({
-                url: 'http://localhost:5555/core/api/v1/orders',
+                url: contextPath + '/orders',
                 method: 'POST',
                 data: $scope.orderDetails
             }).then(function successCallback(response) {

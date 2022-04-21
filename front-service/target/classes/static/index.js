@@ -60,9 +60,9 @@
 })();
 
 angular.module('ttsystem-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
- const contextPath = 'http://localhost:5555/auth';
+ const contextPath = 'http://localhost:5555/auth/api/v1/';
     $scope.tryToAuth = function () {
-        $http.post( contextPath + '/auth', $scope.user)
+        $http.post( contextPath + 'auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
@@ -76,8 +76,9 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
                                 url: 'http://localhost:5555/core/api/v1/orders/getRole',
                                 method: 'GET'
                             }).then(function (response) {
-                                console.log(response.data);
-                                $localStorage.allowance = response.data.roles;
+
+                                $localStorage.allowance = response.data;
+                                console.log($localStorage.allowance);
 
                             });
 
@@ -117,11 +118,7 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
             return false;
         }
     };
-    $rootScope.isAllowed = function(elem){
-        console.log(elem);
-       return $localStorage.allowance.indexOf(elem) != -1;
 
-    }
     $scope.goToRegistration = function(){
          $location.path('/registration');
     }
