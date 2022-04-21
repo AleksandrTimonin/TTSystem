@@ -14,6 +14,10 @@
                 templateUrl: 'form/form.html',
                 controller: 'formController'
             })
+            .when('/registration', {
+                            templateUrl: 'registration/registration.html',
+                            controller: 'registrationController'
+            })
 
             .when('/orders', {
                 templateUrl: 'orders/orders.html',
@@ -56,7 +60,7 @@
 })();
 
 angular.module('ttsystem-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
- const contextPath = 'http://localhost:5555/auth/';
+ const contextPath = 'http://localhost:5555/auth';
     $scope.tryToAuth = function () {
         $http.post( contextPath + '/auth', $scope.user)
             .then(function successCallback(response) {
@@ -117,5 +121,8 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
         console.log(elem);
        return $localStorage.allowance.indexOf(elem) != -1;
 
+    }
+    $scope.goToRegistration = function(){
+         $location.path('/registration');
     }
 });

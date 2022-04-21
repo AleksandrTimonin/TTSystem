@@ -9,6 +9,7 @@ import com.sanjati.auth.entities.User;
 import com.sanjati.auth.repositories.RoleRepository;
 import com.sanjati.auth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    @Autowired
+    private final UserConverter userConverter;
 
 
     public Optional<User> findByUsername(String username) {
@@ -51,7 +54,7 @@ public class UserService implements UserDetailsService {
     public SuccessUserCreatedDto createNewUser(UserDto userDto){
         List<Role> roles = new ArrayList<>();
         roles.add(roleRepository.getById(1L));
-        User user = userRepository.save(UserConverter.dtoToEntity(userDto,roles));
+        User user = userRepository.save(userConverter.dtoToEntity(userDto,roles));
 
         return new SuccessUserCreatedDto(user.getUsername(), user.getCreatedAt().format(formatter), user.getId());
 

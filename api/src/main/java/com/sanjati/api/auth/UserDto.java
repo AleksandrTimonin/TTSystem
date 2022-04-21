@@ -11,6 +11,15 @@ public class UserDto {
     private String office;
     private String building;
     private String username;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public UserDto(String firstName, String lastName, String patronymic, String email, String company, String phone, String office, String building) {
         this.firstName = firstName;

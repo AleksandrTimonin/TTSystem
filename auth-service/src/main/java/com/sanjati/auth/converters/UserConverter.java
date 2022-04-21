@@ -1,15 +1,20 @@
 package com.sanjati.auth.converters;
 
 import com.sanjati.api.auth.UserDto;
+import com.sanjati.auth.configs.SecurityConfig;
 import com.sanjati.auth.entities.Role;
 import com.sanjati.auth.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class UserConverter {
-    public static UserDto modelToDto(User user){
+    @Autowired
+    SecurityConfig securityConfig;
+    public UserDto modelToDto(User user){
         return new UserDto(user.getFirstName(),
                 user.getLastName(),
                 user.getPatronymic(),
@@ -19,9 +24,11 @@ public class UserConverter {
                 user.getOffice(),
                 user.getBuilding());
     }
-    public static User dtoToEntity(UserDto dto, List<Role> roles){
+    public User dtoToEntity(UserDto dto, List<Role> roles){
+
         User user = new User();
         user.setUsername(dto.getUsername());
+        user.setPassword(securityConfig.passwordEncoder().encode(dto.getPassword()));
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setPatronymic(dto.getPatronymic());
