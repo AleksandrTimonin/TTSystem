@@ -8,6 +8,8 @@ import com.sanjati.api.core.RolesDto;
 import com.sanjati.api.core.SuccessCreatedDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.converters.OrderConverter;
+import com.sanjati.core.dto.FullOrderDto;
+import com.sanjati.core.dto.UserDataRequest;
 import com.sanjati.core.integrations.AuthServiceIntegration;
 import com.sanjati.core.services.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,10 @@ public class OrdersController {
     public SuccessCreatedDto createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
         return orderService.createOrder(username, orderDetailsDto);
     }
+    @PostMapping("/loadUserInfo")
+    public UserDto loadUser(@RequestHeader String username, @RequestHeader String role, @RequestBody UserDataRequest user) {
+        return authServiceIntegration.getUser(user.getUser());
+    }
 
     @GetMapping
     public Page<OrderDto> getCurrentUserOrders(@RequestHeader String username, @RequestHeader String role,
@@ -59,15 +65,15 @@ public class OrdersController {
         );
     }
     @GetMapping("/management")
-    public Page<OrderDto> getAllOrders(@RequestHeader String username, @RequestHeader String role,
-                                               @RequestParam(name = "p", defaultValue = "1") Integer page,
-                                               @RequestParam(name = "old_date", required = false) String oldDate,
-                                               @RequestParam(name = "new_date", required = false) String newDate) {
+    public Page<FullOrderDto> getAllOrders(@RequestHeader String username, @RequestHeader String role,
+                                           @RequestParam(name = "p", defaultValue = "1") Integer page,
+                                           @RequestParam(name = "old_date", required = false) String oldDate,
+                                           @RequestParam(name = "new_date", required = false) String newDate) {
         if (page < 1) {
             page = 1;
         }
         return orderService.findAllOrders(oldDate,newDate,page).map(
-                p->orderConverter.entityToDto(p)
+                p->orderConverter.entityToFullDto(p)
         );
     }
 

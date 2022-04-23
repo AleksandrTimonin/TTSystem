@@ -11,6 +11,15 @@ angular.module('ttsystem-front').controller('formController', function ($scope, 
     }
 
     $scope.send = function () {
+        if (!$scope.orderDetails) {
+            alert('Форма пуста..','danger');
+            return;
+        }
+        if($scope.orderDetails.title == null || $scope.orderDetails.description == null) {
+
+            alert('Все поля должны быть заполнены..','danger');
+            return;
+        }
             $http({
                 url: contextPath + '/orders',
                 method: 'POST',

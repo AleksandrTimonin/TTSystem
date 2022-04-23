@@ -23,9 +23,17 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
             })
-            .when('/details', {
-                templateUrl: 'details/details.html',
-                controller: 'detailsController'
+            .when('/assigned', {
+                templateUrl: 'assigned/assigned.html',
+                controller: 'assignedController'
+            })
+            .when('/admin', {
+                templateUrl: 'admin/admin.html',
+                controller: 'adminController'
+            })
+            .when('/income', {
+                 templateUrl: 'income/income.html',
+                 controller: 'incomeController'
             })
             .when('/personal', {
                   templateUrl: 'personal/personal.html',

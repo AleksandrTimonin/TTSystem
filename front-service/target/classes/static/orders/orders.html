@@ -3,24 +3,23 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
 
+            <form novalidate class="align-middle" ng-submit="loadOrders()">
+                <div class="input-group input-group-sm" style="padding: 4px;">
+                    <button   class="btn btn-outline-warning btn-sm"
+                              style="margin-left: 10px;" type="reset" ng-click="clearForm()" >сбросить
+                    </button>
 
-                <form novalidate class="align-middle" ng-submit="loadOrders()">
-                    <div class="input-group input-group-sm" style="padding: 4px;">
-                        <button   class="btn btn-outline-warning btn-sm"
-                                style="margin-left: 10px;" type="reset" ng-click="clearForm()" >сбросить
-                        </button>
+                    <input type="datetime-local" id="OldDateFileld" class="form-control" ng-model="filter.oldDate"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-                        <input type="datetime-local" id="OldDateFileld" class="form-control" ng-model="filter.oldDate"
-                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+                    <input type="datetime-local" id="navNewDateField" class="form-control" ng-model="filter.newDate"
+                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-                        <input type="datetime-local" id="navNewDateField" class="form-control" ng-model="filter.newDate"
-                               aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
-
-                        <button id="navSettingsSubmit"  class="btn btn-outline-warning btn-sm"
-                                style="margin-left: 10px;" type="submit">Применить
-                        </button>
-                    </div>
-                </form>
+                    <button id="navSettingsSubmit"  class="btn btn-outline-warning btn-sm"
+                            style="margin-left: 10px;" type="submit">Применить
+                    </button>
+                </div>
+            </form>
 
         </div>
 
@@ -53,6 +52,7 @@
 
 
         </tbody>
+
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
                 <h5 id="offcanvasRightLabel">Подробности заявки</h5>

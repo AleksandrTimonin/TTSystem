@@ -48,7 +48,9 @@ public class AuthController {
     @GetMapping("/data")
     public UserDto getFullData(@RequestHeader String username){
         User user = userService.findActualUserByUsername(username);
-        return userConverter.modelToDto(user);
+        UserDto result =userConverter.modelToDto(user);
+        result.setUsername(user.getUsername());
+        return result;
 
     }
 
