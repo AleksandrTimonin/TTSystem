@@ -1,12 +1,16 @@
 package com.sanjati.core.controllers;
 
 
-import com.sanjati.api.core.OrderDetailsDto;
+import com.sanjati.api.auth.UserDto;
+import com.sanjati.core.entities.hw6.api.OrderDetailsDto;
 import com.sanjati.api.core.OrderDto;
 import com.sanjati.api.core.RolesDto;
 import com.sanjati.api.core.SuccessCreatedDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.converters.OrderConverter;
+import com.sanjati.core.dto.FullOrderDto;
+import com.sanjati.core.dto.UserDataRequest;
+import com.sanjati.core.integrations.AuthServiceIntegration;
 import com.sanjati.core.services.OrderService;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrdersController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
+    private final AuthServiceIntegration authServiceIntegration;
 
     @GetMapping("/getRole")
     public RolesDto getRoles(@RequestHeader String username, @RequestHeader String role) {
@@ -32,11 +37,19 @@ public class OrdersController {
 
         return roles;
     }
+    @GetMapping("/getPersonal")
+    public UserDto getPersonal(@RequestHeader String username, @RequestHeader String role) {
+        return authServiceIntegration.getUser(username);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SuccessCreatedDto createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
         return orderService.createOrder(username, orderDetailsDto);
+    }
+    @PostMapping("/loadUserInfo")
+    public UserDto loadUser(@RequestHeader String username, @RequestHeader String role, @RequestBody UserDataRequest user) {
+        return authServiceIntegration.getUser(user.getUser());
     }
 
     @GetMapping
@@ -49,6 +62,18 @@ public class OrdersController {
         }
         return orderService.findAllByUsername(oldDate,newDate,page,username).map(
                 p->orderConverter.entityToDto(p)
+        );
+    }
+    @GetMapping("/management")
+    public Page<FullOrderDto> getAllOrders(@RequestHeader String username, @RequestHeader String role,
+                                           @RequestParam(name = "p", defaultValue = "1") Integer page,
+                                           @RequestParam(name = "old_date", required = false) String oldDate,
+                                           @RequestParam(name = "new_date", required = false) String newDate) {
+        if (page < 1) {
+            page = 1;
+        }
+        return orderService.findAllOrders(oldDate,newDate,page).map(
+                p->orderConverter.entityToFullDto(p)
         );
     }
 

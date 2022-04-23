@@ -1,6 +1,8 @@
 package com.sanjati.api.exceptions;
 
-public class AppError {
+
+
+public class AppError  {
     private String code;
     private String message;
 

@@ -13,20 +13,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class AuthServiceIntegration {
-    private final WebClient cartServiceWebClient;
+    private final WebClient authServiceWebClient;
 
-    public void clearUserCart(String username) {
-        cartServiceWebClient.get()
-                .uri("/api/v1/cart/0/clear")
-                .header("username", username)
-                .retrieve()
-                .toBodilessEntity()
-                .block();
-    }
+//    public void clearUserCart(String username) {
+//        cartServiceWebClient.get()
+//                .uri("/api/v1/cart/0/clear")
+//                .header("username", username)
+//                .retrieve()
+//                .toBodilessEntity()
+//                .block();
+//    }
 
     public UserDto getUser(String username) {
-        UserDto user = cartServiceWebClient.get()
-                .uri("/api/v1/data")
+        UserDto user = authServiceWebClient.get()
+                .uri("/data")
                 .header("username", username)
                 // .bodyValue(body) // for POST
                 .retrieve()
@@ -34,7 +34,7 @@ public class AuthServiceIntegration {
                         httpStatus -> httpStatus.is4xxClientError(), // HttpStatus::is4xxClientError
                         clientResponse -> clientResponse.bodyToMono(AuthAppError.class).map(
                                 body -> {
-                                    if (body.getCode().equals(AuthAppError.CartServiceErrors.USER_NOT_FOUND.name())) {
+                                    if (body.getCode().equals(AuthAppError.AuthServiceErrors.USER_NOT_FOUND.name())) {
                                         return new AuthServiceIntegrationException("Пользователь  найден");
                                     }
 

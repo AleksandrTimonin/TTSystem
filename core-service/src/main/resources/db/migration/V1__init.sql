@@ -38,7 +38,3 @@ values ('create app',
 
 
 
-
-
-
-

@@ -1,9 +1,9 @@
 angular.module('ttsystem-front').controller('ordersController', function ($scope, $http, $location) {
-    const contextPath = 'http://localhost:5555/core/';
+    const contextPath = 'http://localhost:5555/core/api/v1';
 
     $scope.loadOrders = function (pageIndex = 1) {
             $http({
-                url: contextPath + 'api/v1/orders',
+                url: contextPath + '/orders',
                 method: 'GET',
                 params: {
                     p: pageIndex,

@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final UserConverter userConverter;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -39,10 +41,16 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
+    @PostMapping("/reg")
+    public ResponseEntity<?> createAuthToken(@RequestBody UserDto user) {
+        return ResponseEntity.ok(userService.createNewUser(user));
+    }
     @GetMapping("/data")
     public UserDto getFullData(@RequestHeader String username){
-        User user = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found: " + username));
-        return UserConverter.modelToDto(user);
+        User user = userService.findActualUserByUsername(username);
+        UserDto result =userConverter.modelToDto(user);
+        result.setUsername(user.getUsername());
+        return result;
 
     }
 

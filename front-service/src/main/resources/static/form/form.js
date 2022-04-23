@@ -1,5 +1,5 @@
 angular.module('ttsystem-front').controller('formController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/cart/';
+    const contextPath = 'http://localhost:5555/core/api/v1';
     var alertPlaceholder = document.getElementById('Alert')
 
 
@@ -11,8 +11,17 @@ angular.module('ttsystem-front').controller('formController', function ($scope, 
     }
 
     $scope.send = function () {
+        if (!$scope.orderDetails) {
+            alert('Форма пуста..','danger');
+            return;
+        }
+        if($scope.orderDetails.title == null || $scope.orderDetails.description == null) {
+
+            alert('Все поля должны быть заполнены..','danger');
+            return;
+        }
             $http({
-                url: 'http://localhost:5555/core/api/v1/orders',
+                url: contextPath + '/orders',
                 method: 'POST',
                 data: $scope.orderDetails
             }).then(function successCallback(response) {

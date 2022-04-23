@@ -1,7 +1,7 @@
 package com.sanjati.core.services;
 
 
-import com.sanjati.api.core.OrderDetailsDto;
+import com.sanjati.core.entities.hw6.api.OrderDetailsDto;
 import com.sanjati.api.core.SuccessCreatedDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.entities.Order;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -78,5 +78,25 @@ public class OrderService {
         Order order = ordersRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Order not found"));
         order.setStatus(status);
 
+    }
+
+    public Page<Order> findAllOrders(String oldDate, String newDate, Integer page) {
+        Specification<Order> spec = Specification.where(null);
+
+
+
+        if (oldDate != null) {
+            LocalDateTime oldDateFormat = LocalDateTime.parse(oldDate.substring(0,22));
+            spec = spec.and(OrderSpecifications.timeGreaterOrEqualsThan(oldDateFormat));
+            log.warn(oldDate);
+        }
+        if (newDate != null) {
+            LocalDateTime newDateFormat = LocalDateTime.parse(newDate.substring(0,22));
+            log.warn(newDate);
+            spec = spec.and(OrderSpecifications.timeLessThanOrEqualsThan(newDateFormat));
+        }
+
+
+        return ordersRepository.findAll(spec,PageRequest.of(page-1,10));
     }
 }

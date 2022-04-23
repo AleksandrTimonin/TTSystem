@@ -17,11 +17,14 @@ public class User {
     @Column(name = "id")
     private Long id;
 
+
+
     @Column(name = "username")
     private String username;
-
     @Column(name = "password")
     private String password;
+    @Column(name = "actually")
+    private Boolean actually;
 
     @Column(name = "first_name")
     private String firstName;
