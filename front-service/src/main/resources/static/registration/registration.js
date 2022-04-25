@@ -1,5 +1,7 @@
-angular.module('ttsystem-front').controller('registrationController', function ($scope, $http) {
-    const contextPath = 'http://localhost:5555/auth/api/v1/reg';
+angular.module('ttsystem-front').controller('registrationController', function ($scope, $http,$localStorage) {
+
+
+     const contextPathAuth = $localStorage.authPath;
      var alertPlaceholder = document.getElementById('regAlert')
 
 
@@ -13,7 +15,7 @@ angular.module('ttsystem-front').controller('registrationController', function (
         $scope.registration = function () {
 
             $http({
-                                url: contextPath,
+                                url: contextPathAuth +'/reg',
                                 method: 'POST',
                                 data: $scope.regDetails
                             }).then(function successCallback(response) {

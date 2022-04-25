@@ -1,8 +1,9 @@
 angular.module('ttsystem-front').controller('assignedController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/core/api/v1';
+   const contextPathCore = $localStorage.corePath;
+
      $scope.loadOrders = function (pageIndex = 1) {
                 $http({
-                    url: contextPath + 'orders/management',
+                    url: contextPathCore + '/orders/management',
                     method: 'GET',
                     params: {
                         p: pageIndex,
@@ -16,7 +17,7 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
             };
      $scope.loadUsersInfo = function () {
              $http({
-             url: contextPath + 'orders/getUserInfo',
+             url: contextPathCore + '/orders/getUserInfo',
              method: 'GET' ,
              params: {
 
@@ -38,7 +39,6 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
                     }
               $scope.isAllowed = function(elem){
                     var result = $localStorage.allowance.roles.includes(elem);
-                    console.log(result);
                     return result ;
 
               }

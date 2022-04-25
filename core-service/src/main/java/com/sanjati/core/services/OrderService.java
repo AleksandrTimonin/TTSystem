@@ -1,7 +1,8 @@
 package com.sanjati.core.services;
 
 
-import com.sanjati.core.entities.hw6.api.OrderDetailsDto;
+
+import com.sanjati.api.core.OrderDetailsDto;
 import com.sanjati.api.core.SuccessCreatedDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.entities.Order;

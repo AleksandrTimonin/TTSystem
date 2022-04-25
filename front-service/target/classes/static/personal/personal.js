@@ -1,10 +1,12 @@
 angular.module('ttsystem-front').controller('personalController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/core/api/v1/';
+
+    const contextPathCore = $localStorage.corePath;
+
 
         $scope.loadPersonalInfo = function () {
 
                     $http({
-                        url: contextPath + 'orders/getPersonal',
+                        url: contextPathCore + '/orders/getPersonal',
                         method: 'GET'
 
                     }).then(function (response) {
@@ -13,7 +15,6 @@ angular.module('ttsystem-front').controller('personalController', function ($sco
                 };
         $scope.isAllowed = function(elem){
               var result = $localStorage.allowance.roles.includes(elem);
-              console.log(result);
               return result ;
 
         }

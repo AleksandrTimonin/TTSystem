@@ -68,9 +68,15 @@
 })();
 
 angular.module('ttsystem-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
- const contextPath = 'http://localhost:5555/auth/api/v1/';
+
+ const currentIp = '10.123.3.228'
+ const contextPathCore = 'http://'+currentIp+':5555/core/api/v1';
+ const contextPathAuth = 'http://'+currentIp+':5555/auth/api/v1';
+ $localStorage.corePath = contextPathCore;
+ $localStorage.authPath = contextPathAuth;
+
     $scope.tryToAuth = function () {
-        $http.post( contextPath + 'auth', $scope.user)
+        $http.post( contextPathAuth + '/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
@@ -81,12 +87,12 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
                     $scope.user.username = null;
                     $scope.user.password = null;
                     $http({
-                                url: 'http://localhost:5555/core/api/v1/orders/getRole',
+                                url: contextPathCore + '/orders/getRole',
                                 method: 'GET'
                             }).then(function (response) {
 
                                 $localStorage.allowance = response.data;
-                                console.log($localStorage.allowance);
+
 
                             });
 

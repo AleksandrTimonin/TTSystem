@@ -2,7 +2,7 @@ package com.sanjati.core.controllers;
 
 
 import com.sanjati.api.auth.UserDto;
-import com.sanjati.core.entities.hw6.api.OrderDetailsDto;
+import com.sanjati.api.core.OrderDetailsDto;
 import com.sanjati.api.core.OrderDto;
 import com.sanjati.api.core.RolesDto;
 import com.sanjati.api.core.SuccessCreatedDto;
