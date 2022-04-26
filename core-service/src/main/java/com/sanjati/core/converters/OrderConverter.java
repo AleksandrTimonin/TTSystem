@@ -1,6 +1,6 @@
 package com.sanjati.core.converters;
 
-import com.sanjati.api.core.OrderDto;
+import com.sanjati.core.dto.OrderDto;
 import com.sanjati.core.dto.FullOrderDto;
 import com.sanjati.core.entities.Order;
 import lombok.RequiredArgsConstructor;

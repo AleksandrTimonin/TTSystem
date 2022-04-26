@@ -1,16 +1,12 @@
 package com.sanjati.core.controllers;
 
 
-import com.sanjati.api.auth.UserDto;
-import com.sanjati.api.core.OrderDetailsDto;
-import com.sanjati.api.core.OrderDto;
-import com.sanjati.api.core.RolesDto;
-import com.sanjati.api.core.SuccessCreatedDto;
+import com.sanjati.core.dto.OrderDetailsDto;
+import com.sanjati.core.dto.OrderDto;
+import com.sanjati.core.dto.SuccessOrderDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.converters.OrderConverter;
 import com.sanjati.core.dto.FullOrderDto;
-import com.sanjati.core.dto.UserDataRequest;
-import com.sanjati.core.integrations.AuthServiceIntegration;
 import com.sanjati.core.services.OrderService;
 import lombok.RequiredArgsConstructor;
 
@@ -28,31 +24,15 @@ import org.springframework.web.bind.annotation.*;
 public class OrdersController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
-    private final AuthServiceIntegration authServiceIntegration;
 
-    @GetMapping("/getRole")
-    public RolesDto getRoles(@RequestHeader String username, @RequestHeader String role) {
-
-       RolesDto roles = new RolesDto(role);
-
-        return roles;
-    }
-    @GetMapping("/getPersonal")
-    public UserDto getPersonal(@RequestHeader String username, @RequestHeader String role) {
-        return authServiceIntegration.getUser(username);
-    }
-
-    @PostMapping
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public SuccessCreatedDto createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
+    public SuccessOrderDto createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
         return orderService.createOrder(username, orderDetailsDto);
     }
-    @PostMapping("/loadUserInfo")
-    public UserDto loadUser(@RequestHeader String username, @RequestHeader String role, @RequestBody UserDataRequest user) {
-        return authServiceIntegration.getUser(user.getUser());
-    }
 
-    @GetMapping
+
+    @GetMapping("/")
     public Page<OrderDto> getCurrentUserOrders(@RequestHeader String username, @RequestHeader String role,
                                                @RequestParam(name = "p", defaultValue = "1") Integer page,
                                                @RequestParam(name = "old_date", required = false) String oldDate,
@@ -80,5 +60,24 @@ public class OrdersController {
     @GetMapping("/{id}")
     public OrderDto getOrderById(@PathVariable Long id, @RequestHeader String role) {
         return orderConverter.entityToDto(orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ORDER 404")));
+
     }
+    //employers <GET>
+
+    @GetMapping("/assign")
+    public SuccessOrderDto assignMe(@RequestHeader String username, @RequestHeader String role, @RequestParam Long id) {
+        return orderService.updateStatusById(id,"ASSIGNED",username);
+    }
+    @PostMapping("/assign")
+    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody Long id, @RequestBody String user) {
+        return orderService.updateStatusById(id,"ASSIGNED",user);
+    }
+    @PostMapping
+    public SuccessOrderDto cancel(@RequestHeader String username, @RequestHeader String role, @RequestBody Long id) {
+        return orderService.updateStatusById(id,"EXECUTED",username);
+    }
+
+    //assign<POST>
+    //assign<GET>
+    //cancel<POST>
 }

@@ -6,7 +6,7 @@ angular.module('ttsystem-front').controller('personalController', function ($sco
         $scope.loadPersonalInfo = function () {
 
                     $http({
-                        url: contextPathCore + '/orders/getPersonal',
+                        url: contextPathCore + '/personal',
                         method: 'GET'
 
                     }).then(function (response) {

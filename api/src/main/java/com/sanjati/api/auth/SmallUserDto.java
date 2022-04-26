@@ -2,7 +2,7 @@ package com.sanjati.api.auth;
 
 
 
-public class SuccessUserCreatedDto {
+public class SmallUserDto {
     String username;
     String date;
     Long id;
@@ -31,12 +31,12 @@ public class SuccessUserCreatedDto {
         this.id = id;
     }
 
-    public SuccessUserCreatedDto(String username, String date, Long id) {
+    public SmallUserDto(String username, String date, Long id) {
         this.username = username;
         this.date = date;
         this.id = id;
     }
 
-    public SuccessUserCreatedDto() {
+    public SmallUserDto() {
     }
 }

@@ -87,16 +87,38 @@
                             <tr>
                                 <th scope="col" colspan="4" class="table-active">Исполнители</th>
 
+
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td colspan="4" class="table-active">{{o.executor}}</td>
+                                <td  class="table-active">{{o.executor}}</td>
+                            </tr>
+                            <tr>
+                                <td  class="table-active">
+                                    <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe()" class="btn btn-outline-warning">Взять</button>
+                                    <button ng-show="!isCreated(o.status)" type="button" disabled class="btn btn-outline-warning">Взять</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="table-active">
+                                    <div ng-show="isAllowed('MANAGER')">
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Назначить сотрудника
+                                            </button>
+                                            <ul class="dropdown-menu" ng-repeat="e in Employers" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" ng-click="assign({{e}})" href="#">{{e}}</a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                             <thead>
                             <tr>
-                                <th scope="col" colspan="4" class="table-active">Комментарий сотрудника (не виден пользователю)</th>
+                                <th scope="col" colspan="4" class="table-active">Комментарий сотрудника </th>
 
                             </tr>
                             </thead>
@@ -104,7 +126,22 @@
                             <tr>
                                 <td colspan="4" class="table-active">{{o.executorCommit}}</td>
                             </tr>
+                            <tr ng-show="isAllowed('MANAGER')&&isCreated(o.status)">
+                                <td colspan="3" class="table-active">
+                                    Если заявка не относится к отделу IT ее можно завершить тут с комментарием по умолчанию
+                                </td>
+                            </tr>
+                            <tr ng-show="isAllowed('MANAGER')&&isCreated(o.status)">
+                                <td class="table-active">
+                                    <button type="button" ng-click="cancelOrder(o.id)" class="btn btn-outline-danger">Отклонить</button>
+                                </td>
+                            </tr>
                             </tbody>
+                            <div id="Alert"></div>
+
+
+
+
                         </table>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight{{o.id}}" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">
@@ -162,6 +199,7 @@
         </div>
 
     </div>
+
 
     <p></p>
     <div>

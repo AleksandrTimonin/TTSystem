@@ -1,6 +1,6 @@
-package com.sanjati.api.core;
+package com.sanjati.core.dto;
 
-public class SuccessCreatedDto{
+public class SuccessOrderDto {
     private String date;
     private Long id;
 
@@ -12,7 +12,7 @@ public class SuccessCreatedDto{
         this.date = date;
     }
 
-    public SuccessCreatedDto() {
+    public SuccessOrderDto() {
     }
 
     public Long getId() {
@@ -23,7 +23,7 @@ public class SuccessCreatedDto{
         this.id = id;
     }
 
-    public SuccessCreatedDto(String date, Long id) {
+    public SuccessOrderDto(String date, Long id) {
         this.date = date;
         this.id = id;
     }

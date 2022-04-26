@@ -17,7 +17,7 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
             };
      $scope.loadUsersInfo = function () {
              $http({
-             url: contextPathCore + '/orders/getUserInfo',
+             url: contextPathCore + '/info',
              method: 'GET' ,
              params: {
 

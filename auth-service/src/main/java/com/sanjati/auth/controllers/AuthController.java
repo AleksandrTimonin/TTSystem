@@ -28,7 +28,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-    private final UserConverter userConverter;
+
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -45,13 +45,6 @@ public class AuthController {
     public ResponseEntity<?> createAuthToken(@RequestBody UserDto user) {
         return ResponseEntity.ok(userService.createNewUser(user));
     }
-    @GetMapping("/data")
-    public UserDto getFullData(@RequestHeader String username){
-        User user = userService.findActualUserByUsername(username);
-        UserDto result =userConverter.modelToDto(user);
-        result.setUsername(user.getUsername());
-        return result;
 
-    }
 
 }

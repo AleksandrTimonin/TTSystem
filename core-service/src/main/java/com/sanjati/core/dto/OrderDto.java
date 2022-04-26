@@ -1,4 +1,4 @@
-package com.sanjati.api.core;
+package com.sanjati.core.dto;
 
 public class OrderDto {
     private Long id;

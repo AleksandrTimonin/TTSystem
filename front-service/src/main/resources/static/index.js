@@ -68,8 +68,8 @@
 })();
 
 angular.module('ttsystem-front').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
-
- const currentIp = '10.123.3.228'
+ const oldIp ='10.123.3.228';
+ const currentIp = 'localhost';
  const contextPathCore = 'http://'+currentIp+':5555/core/api/v1';
  const contextPathAuth = 'http://'+currentIp+':5555/auth/api/v1';
  $localStorage.corePath = contextPathCore;
@@ -87,7 +87,7 @@ angular.module('ttsystem-front').controller('indexController', function ($rootSc
                     $scope.user.username = null;
                     $scope.user.password = null;
                     $http({
-                                url: contextPathCore + '/orders/getRole',
+                                url: contextPathCore + '/roles',
                                 method: 'GET'
                             }).then(function (response) {
 

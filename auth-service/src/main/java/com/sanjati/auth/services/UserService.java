@@ -1,7 +1,8 @@
 package com.sanjati.auth.services;
 
 
-import com.sanjati.api.auth.SuccessUserCreatedDto;
+import com.sanjati.api.auth.EmployersDto;
+import com.sanjati.api.auth.SmallUserDto;
 import com.sanjati.api.auth.UserDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.auth.converters.UserConverter;
@@ -25,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,13 +61,16 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
     @Transactional
-    public SuccessUserCreatedDto createNewUser(UserDto userDto){
+    public SmallUserDto createNewUser(UserDto userDto){
         List<Role> roles = new ArrayList<>();
         roles.add(roleRepository.getById(1L));
         User user = userRepository.save(userConverter.dtoToEntity(userDto,roles));
 
-        return new SuccessUserCreatedDto(user.getUsername(), user.getCreatedAt().format(formatter), user.getId());
+        return new SmallUserDto(user.getUsername(), user.getCreatedAt().format(formatter), user.getId());
 
     }
 
+    public EmployersDto getAllEmployers() {
+        return  new EmployersDto(userRepository.findAllByRoles().stream().map(u->new SmallUserDto(u.getUsername(),u.getUpdatedAt().format(formatter), u.getId())).collect(Collectors.toList()));
+    }
 }
