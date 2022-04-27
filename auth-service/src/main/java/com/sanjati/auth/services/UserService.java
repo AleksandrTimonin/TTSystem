@@ -12,6 +12,7 @@ import com.sanjati.auth.repositories.RoleRepository;
 import com.sanjati.auth.repositories.UserRepository;
 import com.sanjati.auth.repositories.specifications.UserSpecifications;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
@@ -71,6 +72,11 @@ public class UserService implements UserDetailsService {
     }
 
     public EmployersDto getAllEmployers() {
-        return  new EmployersDto(userRepository.findAllByRoles().stream().map(u->new SmallUserDto(u.getUsername(),u.getUpdatedAt().format(formatter), u.getId())).collect(Collectors.toList()));
+        Specification<User> spec = Specification.where(null);
+        spec = spec.and((UserSpecifications.isActual()));
+        spec = spec.and((UserSpecifications.isEmployee()));
+        EmployersDto employersDto = new EmployersDto(userRepository.findAll(spec).stream().map(u->new SmallUserDto(u.getUsername(),u.getUpdatedAt().format(formatter), u.getId())).collect(Collectors.toList()));
+
+        return  employersDto;
     }
 }

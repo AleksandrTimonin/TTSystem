@@ -22,7 +22,8 @@ public class UserConverter {
                 user.getCompany(),
                 user.getPhone(),
                 user.getOffice(),
-                user.getBuilding());
+                user.getBuilding(),
+                user.getUsername());
     }
     public User dtoToEntity(UserDto dto, List<Role> roles){
 

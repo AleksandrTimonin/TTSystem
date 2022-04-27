@@ -26,6 +26,7 @@
     <h3>Все заявки</h3>
     <p></p>
     <div ng-show="isAllowed('EMPLOYEE')">
+
         <div class="accordion accordion-flush" id="accordion"  ng-repeat="o in OrdersPage.content">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="fh{{o.id}}">
@@ -35,7 +36,12 @@
                 </h2>
                 <div id="fc{{o.id}}" class="accordion-collapse collapse" aria-labelledby="fh{{o.id}}" data-bs-parent="#accordion">
                     <div class="accordion-body">
+
+
+
                         <table class="table table-primary table-borderless">
+
+
                             <thead>
                             <tr>
 
@@ -92,29 +98,35 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td  class="table-active">{{o.executor}}</td>
-                            </tr>
-                            <tr>
+                                <td colspan="2" class="table-active">{{o.executor}}</td>
                                 <td  class="table-active">
-                                    <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe()" class="btn btn-outline-warning">Взять</button>
+                                    <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe()" class="btn btn-warning">Взять</button>
                                     <button ng-show="!isCreated(o.status)" type="button" disabled class="btn btn-outline-warning">Взять</button>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="table-active">
+                                <td class="table-active">
                                     <div ng-show="isAllowed('MANAGER')">
                                         <div class="dropdown">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Назначить сотрудника
-                                            </button>
-                                            <ul class="dropdown-menu" ng-repeat="e in Employers" aria-labelledby="dropdownMenuButton1">
-                                                <li><a class="dropdown-item" ng-click="assign({{e}})" href="#">{{e}}</a></li>
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Назначить
+                                        </button>
+                                        <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
+                                            <div ng-repeat="e in Employers.list">
 
-                                            </ul>
+                                                <li>
+
+                                                    <button  type="button" ng-click="assign(e)" class="btn btn-secondary dropdown-item">{{e.username}}</button>
+                                                </li>
+
+
+                                            </div>
+                                        </ul>
+
                                         </div>
                                     </div>
                                 </td>
                             </tr>
+
+
                             </tbody>
                             <thead>
                             <tr>
@@ -130,19 +142,24 @@
                                 <td colspan="3" class="table-active">
                                     Если заявка не относится к отделу IT ее можно завершить тут с комментарием по умолчанию
                                 </td>
-                            </tr>
-                            <tr ng-show="isAllowed('MANAGER')&&isCreated(o.status)">
                                 <td class="table-active">
-                                    <button type="button" ng-click="cancelOrder(o.id)" class="btn btn-outline-danger">Отклонить</button>
-                                </td>
+                                <button type="button" ng-click="cancelOrder(o.id)" class="btn btn-outline-danger">Отклонить</button>
+
+
+
+                            </td>
                             </tr>
+
                             </tbody>
-                            <div id="Alert"></div>
+
+
 
 
 
 
                         </table>
+                        <div id="AlertInAssign"></div>
+
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight{{o.id}}" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">
                                 <h5 id="offcanvasRightLabel{{o.id}}">О пользователе</h5>
@@ -199,6 +216,7 @@
         </div>
 
     </div>
+
 
 
     <p></p>

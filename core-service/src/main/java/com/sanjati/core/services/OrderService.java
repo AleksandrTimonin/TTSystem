@@ -44,7 +44,7 @@ public class OrderService {
 
         String formattedDateTime = date.format(formatter);
 
-        SuccessOrderDto result = new SuccessOrderDto(formattedDateTime,order.getId());
+        SuccessOrderDto result = new SuccessOrderDto(formattedDateTime,order.getExecutor(),order.getId());
         return result;
     }
 
@@ -102,9 +102,9 @@ public class OrderService {
          }
          order.setStatus(status);
 
-         order = ordersRepository.save(order);
+         order = ordersRepository.saveAndFlush(order);
 
-         return new SuccessOrderDto(order.getUpdatedAt().format(formatter),order.getId());
+         return new SuccessOrderDto(order.getUpdatedAt().format(formatter),order.getExecutor(),order.getId());
     }
 
     public Page<Order> findAllOrders(String oldDate, String newDate, Integer page) {

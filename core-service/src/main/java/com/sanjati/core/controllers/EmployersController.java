@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/employers")
 @RequiredArgsConstructor
 public class EmployersController {
     private final AuthServiceIntegration authServiceIntegration;
-    @GetMapping("/employers")
+    @GetMapping
     public EmployersDto getEmployers(@RequestHeader String username, @RequestHeader String role) {
         return authServiceIntegration.getEmployers(username);
     }

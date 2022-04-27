@@ -11,8 +11,12 @@ public class UserSpecifications {
     }
     public static Specification<User> isActual() {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("actually"));
-    }
 
+    }
+    public static Specification<User> isEmployee() {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("isEmployee"));
+
+    }
 
 
 }

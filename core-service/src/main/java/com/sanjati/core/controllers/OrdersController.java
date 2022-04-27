@@ -1,6 +1,7 @@
 package com.sanjati.core.controllers;
 
 
+import com.sanjati.api.auth.SmallUserDto;
 import com.sanjati.core.dto.OrderDetailsDto;
 import com.sanjati.core.dto.OrderDto;
 import com.sanjati.core.dto.SuccessOrderDto;
@@ -25,14 +26,14 @@ public class OrdersController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SuccessOrderDto createOrder(@RequestHeader String username, @RequestHeader String role, @RequestBody OrderDetailsDto orderDetailsDto) {
         return orderService.createOrder(username, orderDetailsDto);
     }
 
 
-    @GetMapping("/")
+    @GetMapping
     public Page<OrderDto> getCurrentUserOrders(@RequestHeader String username, @RequestHeader String role,
                                                @RequestParam(name = "p", defaultValue = "1") Integer page,
                                                @RequestParam(name = "old_date", required = false) String oldDate,
@@ -69,10 +70,10 @@ public class OrdersController {
         return orderService.updateStatusById(id,"ASSIGNED",username);
     }
     @PostMapping("/assign")
-    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody Long id, @RequestBody String user) {
-        return orderService.updateStatusById(id,"ASSIGNED",user);
+    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody SmallUserDto user) {
+        return orderService.updateStatusById(user.getId(),"ASSIGNED",user.getUsername());
     }
-    @PostMapping
+    @PostMapping("/cancel")
     public SuccessOrderDto cancel(@RequestHeader String username, @RequestHeader String role, @RequestBody Long id) {
         return orderService.updateStatusById(id,"EXECUTED",username);
     }

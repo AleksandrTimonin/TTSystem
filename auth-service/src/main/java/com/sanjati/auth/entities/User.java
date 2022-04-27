@@ -25,6 +25,8 @@ public class User {
     private String password;
     @Column(name = "actually")
     private Boolean actually;
+    @Column(name = "is_employee")
+    private Boolean isEmployee;
 
     @Column(name = "first_name")
     private String firstName;

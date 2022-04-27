@@ -21,7 +21,7 @@ public class UserDto {
         this.password = password;
     }
 
-    public UserDto(String firstName, String lastName, String patronymic, String email, String company, String phone, String office, String building) {
+    public UserDto(String firstName, String lastName, String patronymic, String email, String company, String phone, String office, String building, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
@@ -30,6 +30,7 @@ public class UserDto {
         this.phone = phone;
         this.office = office;
         this.building = building;
+        this.username = username;
 
     }
 

@@ -18,76 +18,82 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
         };
  $scope.loadEmployers = function(){
         $http({
-                        url: contextPathCore + '/orders/employers',
+                        url: contextPathCore + '/employers',
                         method: 'GET'
 
                     }).then(function (response) {
                         $scope.Employers = response.data;
+                        console.log(response.data);
 
 
                     });
  }
-  var alertPlaceholder = document.getElementById('Alert')
+
 
 
      function alert(message, type) {
-       var wrapper = document.createElement('div')
-       wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-
-       alertPlaceholder.append(wrapper)
+     var alertPlaceholder = document.getElementById('AlertInAssign');
+       var wrapper = document.createElement('div');
+       wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+        console.log(wrapper)
+       alertPlaceholder.append(wrapper);
      }
 
-     $scope.assign = function (User, id) {
+     $scope.assign = function (User) {
+            console.log(User);
 
              $http({
-                 url: contextPathCore + '/assign',
+                 url: contextPathCore + '/orders/assign',
                  method: 'POST',
-                 data: id, user
+                 data:  User
              }).then(function successCallback(response) {
-                 alert('Исполнитель '+ response.data.username +',Время регистрации : ' + response.data.date,'success');
+                 alert('Исполнитель '+ response.data.executor +',Время регистрации : ' + response.data.date,'success');
+                 loadOrders();
 
              }, function errorCallback(response) {
                  alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-
+                    loadOrders();
 
              });
          };
          $scope.assignMe = function (orderId) {
 
                       $http({
-                          url: contextPathCore + '/orders/cancel',
+                          url: contextPathCore + '/orders/assign',
                           method: 'GET',
                           params: {
                                 id : orderId
                           }
                       }).then(function successCallback(response) {
                           alert('Заявка ID: '+response.data.id+' отклонена. Время : ' + response.data.date,'success');
+                          loadOrders();
 
                       }, function errorCallback(response) {
                           alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-
-
+                          loadOrders();
                       });
                   };
- $scope.cancelOrder = function (id) {
+        $scope.cancelOrder = function (id) {
 
                        $http({
-                           url: contextPathCore + '/cancel',
+                           url: contextPathCore + '/orders/cancel',
                            method: 'POST',
                            data: id
 
                        }).then(function successCallback(response) {
-                           alert('Вы успешно приняли заявку,\\n необходимо отметить начало работы на странице МОИ ЗАЯВКИ.\\n Время регистрации : ' + response.data.date,'success');
+                           alert('Вы успешно отклонили заявку. Время регистрации : ' + response.data.date,'success');
+                           loadOrders();
 
                        }, function errorCallback(response) {
                            alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
+                           loadOrders();
 
 
                        });
                    };
  $scope.loadUsersInfo = function (username) {
          $http({
-                 url: contextPathCore + '/orders/info',
+                 url: contextPathCore + '/info',
                  method: 'POST' ,
                  data:{user : username}
 
