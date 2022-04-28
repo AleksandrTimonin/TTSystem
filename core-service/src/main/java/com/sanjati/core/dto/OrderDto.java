@@ -2,7 +2,7 @@ package com.sanjati.core.dto;
 
 public class OrderDto {
     private Long id;
-    private String time;
+    private String createdAt;
     private String status;
     private String title;
     private String description;
@@ -19,12 +19,12 @@ public class OrderDto {
         this.id = id;
     }
 
-    public String getTime() {
-        return time;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getStatus() {
@@ -53,7 +53,7 @@ public class OrderDto {
 
     public OrderDto(Long id, String time, String status, String title, String description) {
         this.id = id;
-        this.time = time;
+        this.createdAt = time;
         this.status = status;
         this.title = title;
         this.description = description;

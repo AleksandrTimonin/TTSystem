@@ -26,7 +26,7 @@ private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M
 
         if(order.getAssignment()!= null) assignment = order.getAssignment().format(formatter);
         if(order.getStartProgress()!= null) startProcess = order.getStartProgress().format(formatter);
-        if(order.getExecuted()!= null) executed = order.getExecuted().format(formatter);
+        if(order.getCompleted()!= null) executed = order.getCompleted().format(formatter);
         if(order.getExecutor()!= null) executor = order.getExecutor();
         if(order.getExecutorCommit()!= null) executorCommit = order.getExecutorCommit();
 

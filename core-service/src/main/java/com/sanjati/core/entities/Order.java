@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -20,8 +21,6 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-
-
     @Column(name = "title")
     private String title;
     @Column(name = "description")
@@ -30,21 +29,12 @@ public class Order {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "executor")
-    private String executor;
-
-    @Column(name = "executor_commit")
-    private String executorCommit;
-
+    //created assigned accepted postponed canceled completed
     @Column(name = "status")
     private String status;
 
-    @Column(name = "assignment")
-    private LocalDateTime assignment;
-    @Column(name = "start_progress")
-    private LocalDateTime startProgress;
-    @Column(name = "executed")
-    private LocalDateTime executed;
+    @Column(name = "completed")
+    private LocalDateTime completed;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -53,4 +43,7 @@ public class Order {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "order")
+    private List<Process> processes;
 }

@@ -84,7 +84,7 @@ public class OrderService {
     @Transactional
     public SuccessOrderDto updateStatusById(Long id, String status,String username){
         Order order = ordersRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Ордер в базе не найден"));
-
+//created assigned accepted postponed canceled completed
 
          switch (status){
              case ("ASSIGNED")://назначен
@@ -95,8 +95,8 @@ public class OrderService {
                  order.setStartProgress( LocalDateTime.now());
                  break;
              case ("EXECUTED")://закрыт
-             case ("DEFERRED"):
-                 order.setExecuted( LocalDateTime.now());
+             case ("DEFERRED")://postponed
+                 order.setCompleted( LocalDateTime.now());
                  break;
              default: throw new IllegalArgumentException();
          }
