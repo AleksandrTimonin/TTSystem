@@ -1,7 +1,7 @@
 create table orders
 (
     id                  bigserial primary key,
-
+    is_active           boolean not null,
 
     title               varchar(100) not null,
     description         varchar(2000) not null,
@@ -9,6 +9,8 @@ create table orders
     username            varchar(100) not null,
 
     status              varchar(16) not null,
+    executors           varchar(500),
+
 
     completed_at        timestamp,
     created_at          timestamp default current_timestamp,
@@ -18,9 +20,10 @@ create table processes
 (
     id                  bigserial primary key,
     order_id            bigserial not null,
+    is_active           boolean not null,
 
     executor            varchar(100) not null,
-    executor_commit     varchar(2000) not null,
+
 
     assigned_at         timestamp default current_timestamp,
     accepted_at         timestamp,
@@ -30,20 +33,30 @@ create table processes
     updated_at          timestamp default current_timestamp,
     FOREIGN KEY (order_id)  REFERENCES orders (id)
 );
+create table commits (
+        id                  bigserial primary key,
+        order_id            bigserial not null,
+        executor_commit     varchar(2000),
+        created_at          timestamp default current_timestamp,
+        updated_at          timestamp default current_timestamp
+
+);
 
 
 
 
 
 
-insert into orders (title, description, username, status)
-values ('create app',
+insert into orders (is_active,title, description, username, status,executors)
+values ( true,
+        'create app',
         'blabla bla uchet vremeni bla bla blalalalala',
         'admin',
-        'expected');
+        'expected',
+        'admin');
 
-insert into processes (order_id, executor)
-values (1,'admin');
+insert into processes (order_id, is_active,executor)
+values (1,true,'admin');
 
 
 

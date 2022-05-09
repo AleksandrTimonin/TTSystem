@@ -53,7 +53,7 @@ public class OrdersController {
         if (page < 1) {
             page = 1;
         }
-        return orderService.findAllOrders(oldDate,newDate,page).map(
+        return orderService.findAllFullOrders(oldDate,newDate,page).map(
                 p->orderConverter.entityToFullDto(p)
         );
     }
@@ -67,15 +67,15 @@ public class OrdersController {
 
     @GetMapping("/assign")
     public SuccessOrderDto assignMe(@RequestHeader String username, @RequestHeader String role, @RequestParam Long id) {
-        return orderService.updateStatusById(id,"ASSIGNED",username);
+        return orderService.assignById(id,username,username);
     }
     @PostMapping("/assign")
     public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody SmallUserDto user) {
-        return orderService.updateStatusById(user.getId(),"ASSIGNED",user.getUsername());
+        return orderService.assignById(user.getId(),user.getUsername(),username);
     }
     @PostMapping("/cancel")
     public SuccessOrderDto cancel(@RequestHeader String username, @RequestHeader String role, @RequestBody Long id) {
-        return orderService.updateStatusById(id,"EXECUTED",username);
+        return orderService.cancelById(id, username);
     }
 
     //assign<POST>

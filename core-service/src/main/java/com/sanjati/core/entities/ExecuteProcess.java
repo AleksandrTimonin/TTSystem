@@ -14,14 +14,15 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Process {
+public class ExecuteProcess {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_id")
-    private Long orderId;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
@@ -29,8 +30,7 @@ public class Process {
 
     @Column(name = "executor")
     private String executor;
-    @Column(name = "executor_commit")
-    private String commit;
+
 
     @CreationTimestamp
     @Column(name = "assigned_at")

@@ -2,9 +2,11 @@ package com.sanjati.core.services;
 
 
 
+import com.sanjati.api.utils.AppFormatter;
 import com.sanjati.core.dto.OrderDetailsDto;
 import com.sanjati.core.dto.SuccessOrderDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
+import com.sanjati.core.entities.ExecuteProcess;
 import com.sanjati.core.entities.Order;
 import com.sanjati.core.repositories.OrdersRepository;
 import com.sanjati.core.repositories.specifications.OrderSpecifications;
@@ -26,7 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrdersRepository ordersRepository;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     //status :
     //created assigned accepted executed deferred
 
@@ -37,14 +39,15 @@ public class OrderService {
         order.setDescription(orderDetailsDto.getDescription());
         order.setUsername(username);
         order.setStatus("CREATED");
+        order.setIsActive(true);
 
         order = ordersRepository.save(order);
 
-        LocalDateTime date = order.getCreatedAt();
 
-        String formattedDateTime = date.format(formatter);
 
-        SuccessOrderDto result = new SuccessOrderDto(formattedDateTime,order.getExecutor(),order.getId());
+
+
+        SuccessOrderDto result = new SuccessOrderDto(order.getCreatedAt().format(AppFormatter.getFormatter()),username,order.getId());
         return result;
     }
 
@@ -82,34 +85,41 @@ public class OrderService {
 
     }
     @Transactional
-    public SuccessOrderDto updateStatusById(Long id, String status,String username){
+    public SuccessOrderDto assignById(Long id, String assignedUsername,String username){
         Order order = ordersRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Ордер в базе не найден"));
-//created assigned accepted postponed canceled completed
 
-         switch (status){
-             case ("ASSIGNED")://назначен
-                 order.setAssignment( LocalDateTime.now());
-                 order.setExecutor(username);
-                 break;
-             case ("ACCEPTED")://принят
-                 order.setStartProgress( LocalDateTime.now());
-                 break;
-             case ("EXECUTED")://закрыт
-             case ("DEFERRED")://postponed
-                 order.setCompleted( LocalDateTime.now());
-                 break;
-             default: throw new IllegalArgumentException();
-         }
-         order.setStatus(status);
+    //created assigned accepted postponed canceled completed
 
-         order = ordersRepository.saveAndFlush(order);
 
-         return new SuccessOrderDto(order.getUpdatedAt().format(formatter),order.getExecutor(),order.getId());
+        ExecuteProcess executeProcess = new ExecuteProcess();//id,order_id,executor,assigned!,accept,postopned,finished
+
+        executeProcess.setExecutor(assignedUsername);
+        order.getProcesses().add(executeProcess);
+        if(order.getStatus().equals("CREATED"))order.setStatus("ASSIGNED");
+        commit(" : назначен исполнитель : ",username,order);
+
+
+
+
+
+         return new SuccessOrderDto(order.getUpdatedAt().format(AppFormatter.getFormatter()),order.getExecutors(),order.getId());
+    }
+    public void commit(String message,String username, Order order){
+
+        StringBuilder commit = new StringBuilder();
+        if(order.getCommit()!=null) commit.append(order.getCommit());
+        commit.append("\\n").append(LocalDateTime.now().format(AppFormatter.getFormatter()))
+                .append(">>> ")
+                .append(username)
+                .append(" : ")
+                .append(message);
+
+        order.setCommit(commit.toString());
     }
 
-    public Page<Order> findAllOrders(String oldDate, String newDate, Integer page) {
+    @Transactional
+    public Page<Order> findAllFullOrders(String oldDate, String newDate, Integer page) {
         Specification<Order> spec = Specification.where(null);
-
 
 
         if (oldDate != null) {
@@ -124,6 +134,16 @@ public class OrderService {
         }
 
 
-        return ordersRepository.findAll(spec,PageRequest.of(page-1,10));
+
+        return  ordersRepository.findAll(spec,PageRequest.of(page-1,10));
+    }
+    @Transactional
+    public SuccessOrderDto cancelById(Long id,String username) {
+        Order order = findById(id).orElseThrow(()->new ResourceNotFoundException("Ордер в базе не найден"));
+        order.setCompleted(LocalDateTime.now());
+        order.setStatus("COMPLETED");
+        commit( "не соотвествует профилю отдела, либо выполнение невозможно",username,order);
+        ordersRepository.save(order);
+        return new SuccessOrderDto(order.getCompleted().format(AppFormatter.getFormatter()),null,id);
     }
 }

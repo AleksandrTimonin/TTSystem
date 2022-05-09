@@ -42,9 +42,9 @@
             <td>{{order.id}}</td>
             <td>{{order.title}}</td>
             <td>{{order.status}}</td>
-            <td>{{order.time}}</td>
+            <td>{{order.createdAt}}</td>
             <td>
-                <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" ng-click="getDescription(order.description)" aria-controls="offcanvasRight">?</button>
+                <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" ng-click="getDescription(order.description,order.commits)" aria-controls="offcanvasRight">?</button>
             </td>
 
 
@@ -59,8 +59,37 @@
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                {{mytext}}
+
+
+                <div>
+                    <h3>
+                        Информация
+                    </h3>
+                </div>
+
+                <div>
+                    {{myText}}
+                </div>
+
+                <div>
+                    <h3>
+                        Комментарии
+                    </h3>
+                </div>
+
+                <div>
+                    {{myCommits}}
+                </div>
+
+
+
+
+
+
+
             </div>
+
+
         </div>
     </table>
 

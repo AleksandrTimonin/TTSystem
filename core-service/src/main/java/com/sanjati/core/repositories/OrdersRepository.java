@@ -15,13 +15,13 @@ import java.util.List;
 public interface OrdersRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
     @Query("select o from Order o where o.username = ?1")
     List<Order> findAllByUsername(String username);
-    @Query("update Order o set o.status = ?1 where o.id = ?2")
-    void updateStatus(String status,Long id);
-    @Query("update Order o where o.executor = ?1 where o.id = ?2")
-    void updateExecutor(String executor,Long id);
+//    @Query("update Order o set o.status = ?1 where o.id = ?2")
+//    void updateStatus(String status,Long id);
+//    @Query("update Order o where o.executor = ?1 where o.id = ?2")
+//    void updateExecutor(String executor,Long id);
 
-    @Transactional
-    @Modifying
-    @Query("update Order o set o.status = ?1 where o.id = ?2")
-    int updateStatusByIdEquals(String status, Long id);
+//    @Transactional
+//    @Modifying
+//    @Query("update Order o set o.status = ?1 where o.id = ?2")
+//    int updateStatusByIdEquals(String status, Long id);
 }

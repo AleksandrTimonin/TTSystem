@@ -20,6 +20,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @Column(name = "title")
     private String title;
@@ -32,8 +34,12 @@ public class Order {
     //created assigned accepted postponed canceled completed
     @Column(name = "status")
     private String status;
+    @Column(name = "executors")
+    private String executors;
+    @Column(name = "executor_commit")
+    private String commit;
 
-    @Column(name = "completed")
+    @Column(name = "completed_at")
     private LocalDateTime completed;
 
     @CreationTimestamp
@@ -45,5 +51,5 @@ public class Order {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "order")
-    private List<Process> processes;
+    private List<ExecuteProcess> processes;
 }

@@ -7,9 +7,16 @@ public class OrderDto {
     private String title;
     private String description;
 
+    private String commits;
 
 
+    public String getCommits() {
+        return commits;
+    }
 
+    public void setCommits(String commits) {
+        this.commits = commits;
+    }
 
     public Long getId() {
         return id;
@@ -51,12 +58,13 @@ public class OrderDto {
         this.description = description;
     }
 
-    public OrderDto(Long id, String time, String status, String title, String description) {
+    public OrderDto(Long id, String time, String status, String title, String description,String commits) {
         this.id = id;
         this.createdAt = time;
         this.status = status;
         this.title = title;
         this.description = description;
+        this.commits = commits;
     }
 
     public OrderDto() {

@@ -1,45 +1,52 @@
 package com.sanjati.core.converters;
 
+import com.sanjati.api.utils.AppFormatter;
 import com.sanjati.core.dto.OrderDto;
 import com.sanjati.core.dto.FullOrderDto;
 import com.sanjati.core.entities.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.format.DateTimeFormatter;
+
 
 @Component
 @RequiredArgsConstructor
 public class OrderConverter {
-private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    //TODO конвертер
+
+
     public OrderDto entityToDto(Order order) {
 
-        return new OrderDto(order.getId(), order.getCreatedAt().format(formatter),order.getStatus(),order.getTitle(),order.getDescription());
+        return new OrderDto(order.getId(),
+                order.getCreatedAt().format(AppFormatter.getFormatter()),
+                order.getStatus(),
+                order.getTitle(),
+                order.getDescription(),
+                order.getCommit());
     }
-    public FullOrderDto entityToFullDto(Order order){
-        String assignment="не назначено";
-        String startProcess = "не назначено";
-        String executed = "не назначено";
-        String executor = "не назначен";
-        String executorCommit = "не заполнено";
+    public FullOrderDto entityToFullDto(Order order) {
+        //order : id,title,description,username,status,executors, completed,created,updated, list<process>
+        FullOrderDto fullData = new FullOrderDto();
 
-        if(order.getAssignment()!= null) assignment = order.getAssignment().format(formatter);
-        if(order.getStartProgress()!= null) startProcess = order.getStartProgress().format(formatter);
-        if(order.getCompleted()!= null) executed = order.getCompleted().format(formatter);
-        if(order.getExecutor()!= null) executor = order.getExecutor();
-        if(order.getExecutorCommit()!= null) executorCommit = order.getExecutorCommit();
+        fullData.setId(order.getId());
+        fullData.setTitle(order.getTitle());
+        fullData.setDescription(order.getDescription());
+        fullData.setUsername(order.getUsername());
+        fullData.setStatus(order.getStatus());
 
-        return new FullOrderDto(order.getId(),
-                                order.getUsername(),
-                                order.getTitle(),
-                                order.getDescription(),
-                                order.getStatus(),
-                                executor,
-                                order.getExecutorCommit(),
-                                order.getCreatedAt().format(formatter),
-                                assignment,
-                                startProcess,
-                                executed);
+        if(order.getExecutors()!=null) fullData.setExecutors(order.getExecutors());
+        else fullData.setExecutors("не назначен");
+
+        if(order.getCommit()!=null) fullData.setCommits(order.getCommit());
+        else  fullData.setCommits("пока не комментировали");
+
+        fullData.setCreatedAt(order.getCreatedAt().format(AppFormatter.getFormatter()));
+
+        if(order.getCompleted()!=null) fullData.setCompletedAt(order.getCompleted().format(AppFormatter.getFormatter()));
+        else  fullData.setCompletedAt("не завернён");
+
+
+
+        return fullData;
+
     }
 }

@@ -75,18 +75,16 @@
                             </tbody>>
                             <thead>
                             <tr>
-                                <th scope="col">Создан</th>
-                                <th scope="col">Назначен</th>
-                                <th scope="col">Принят</th>
-                                <th scope="col">Закрыт</th>
+                                <th colspan="2" scope="col">Создан</th>
+
+                                <th colspan="2" scope="col">Закрыт</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>{{o.createdAt}}</td>
-                                <td>{{o.assignment}}</td>
-                                <td>{{o.startProgress}}</td>
-                                <td>{{o.executed}}</td>
+                                <td colspan="2">{{o.createdAt}}</td>
+
+                                <td colspan="2">{{o.executed}}</td>
                             </tr>
                             </tbody>
                             <thead>
@@ -98,7 +96,8 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td colspan="2" class="table-active">{{o.executor}}</td>
+                                <td colspan="2" class="table-active">
+                                    <button ng-show="isCreated(o.status)" type="button" ng-click="info()" class="btn btn-warning">{{o.executors}}</button></td>
                                 <td  class="table-active">
                                     <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe()" class="btn btn-warning">Взять</button>
                                     <button ng-show="!isCreated(o.status)" type="button" disabled class="btn btn-outline-warning">Взять</button>
@@ -136,7 +135,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td colspan="4" class="table-active">{{o.executorCommit}}</td>
+                                <td colspan="4" class="table-active">{{o.commits}}</td>
                             </tr>
                             <tr ng-show="isAllowed('MANAGER')&&isCreated(o.status)">
                                 <td colspan="3" class="table-active">

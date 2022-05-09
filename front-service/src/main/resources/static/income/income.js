@@ -48,11 +48,11 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
                  data:  User
              }).then(function successCallback(response) {
                  alert('Исполнитель '+ response.data.executor +',Время регистрации : ' + response.data.date,'success');
-                 loadOrders();
+                 $scope.loadOrders();
 
              }, function errorCallback(response) {
                  alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-                    loadOrders();
+                   $scope.loadOrders();
 
              });
          };
@@ -66,11 +66,11 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
                           }
                       }).then(function successCallback(response) {
                           alert('Заявка ID: '+response.data.id+' отклонена. Время : ' + response.data.date,'success');
-                          loadOrders();
+                         $scope.loadOrders();
 
                       }, function errorCallback(response) {
                           alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-                          loadOrders();
+                          $scope.loadOrders();
                       });
                   };
         $scope.cancelOrder = function (id) {
@@ -82,11 +82,11 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
 
                        }).then(function successCallback(response) {
                            alert('Вы успешно отклонили заявку. Время регистрации : ' + response.data.date,'success');
-                           loadOrders();
+                           $scope.loadOrders();
 
                        }, function errorCallback(response) {
                            alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-                           loadOrders();
+                           $scope.loadOrders();
 
 
                        });
