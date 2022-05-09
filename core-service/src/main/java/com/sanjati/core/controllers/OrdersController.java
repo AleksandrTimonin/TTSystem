@@ -1,13 +1,9 @@
 package com.sanjati.core.controllers;
 
 
-import com.sanjati.api.auth.SmallUserDto;
-import com.sanjati.core.dto.OrderDetailsDto;
-import com.sanjati.core.dto.OrderDto;
-import com.sanjati.core.dto.SuccessOrderDto;
+import com.sanjati.core.dto.*;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
 import com.sanjati.core.converters.OrderConverter;
-import com.sanjati.core.dto.FullOrderDto;
 import com.sanjati.core.services.OrderService;
 import lombok.RequiredArgsConstructor;
 
@@ -70,8 +66,9 @@ public class OrdersController {
         return orderService.assignById(id,username,username);
     }
     @PostMapping("/assign")
-    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody SmallUserDto user) {
-        return orderService.assignById(user.getId(),user.getUsername(),username);
+    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody AssignUserDto dto) {
+
+        return orderService.assignById(dto.getOrderId(), dto.getUsername(),username);
     }
     @PostMapping("/cancel")
     public SuccessOrderDto cancel(@RequestHeader String username, @RequestHeader String role, @RequestBody Long id) {

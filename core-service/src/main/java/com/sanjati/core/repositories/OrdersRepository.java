@@ -20,8 +20,8 @@ public interface OrdersRepository extends JpaRepository<Order, Long>, JpaSpecifi
 //    @Query("update Order o where o.executor = ?1 where o.id = ?2")
 //    void updateExecutor(String executor,Long id);
 
-//    @Transactional
-//    @Modifying
-//    @Query("update Order o set o.status = ?1 where o.id = ?2")
-//    int updateStatusByIdEquals(String status, Long id);
+    @Transactional
+    @Modifying
+    @Query("update Order o set o.status = ?1 where o.id = ?2")
+    int updateStatusByIdEquals(String status, Long id);
 }

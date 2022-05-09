@@ -13,16 +13,19 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
             }).then(function (response) {
                 $scope.OrdersPage = response.data;
                 $scope.paginationArray = $scope.generatePagesIndexes(1, $scope.OrdersPage.totalPages);
+                console.log(response.data.content)
 
             });
         };
- $scope.loadEmployers = function(){
+ $scope.loadEmployers = function(executors){
         $http({
                         url: contextPathCore + '/employers',
                         method: 'GET'
 
                     }).then(function (response) {
+
                         $scope.Employers = response.data;
+
                         console.log(response.data);
 
 
@@ -35,24 +38,25 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
      var alertPlaceholder = document.getElementById('AlertInAssign');
        var wrapper = document.createElement('div');
        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        console.log(wrapper)
+
        alertPlaceholder.append(wrapper);
      }
 
-     $scope.assign = function (User) {
-            console.log(User);
+     $scope.assign = function (u,id) {
+
 
              $http({
                  url: contextPathCore + '/orders/assign',
                  method: 'POST',
-                 data:  User
+                 data:  {username : u.username , orderId : id}
+
              }).then(function successCallback(response) {
                  alert('Исполнитель '+ response.data.executor +',Время регистрации : ' + response.data.date,'success');
-                 loadOrders();
+                 $scope.loadOrders();
 
              }, function errorCallback(response) {
                  alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-                    loadOrders();
+                   $scope.loadOrders();
 
              });
          };
@@ -66,11 +70,11 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
                           }
                       }).then(function successCallback(response) {
                           alert('Заявка ID: '+response.data.id+' отклонена. Время : ' + response.data.date,'success');
-                          loadOrders();
+                         $scope.loadOrders();
 
                       }, function errorCallback(response) {
                           alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-                          loadOrders();
+                          $scope.loadOrders();
                       });
                   };
         $scope.cancelOrder = function (id) {
@@ -82,11 +86,11 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
 
                        }).then(function successCallback(response) {
                            alert('Вы успешно отклонили заявку. Время регистрации : ' + response.data.date,'success');
-                           loadOrders();
+                           $scope.loadOrders();
 
                        }, function errorCallback(response) {
                            alert('Что-то пошло не так - попробуйте позже..' +response.data,'danger');
-                           loadOrders();
+                           $scope.loadOrders();
 
 
                        });
@@ -125,5 +129,19 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
                           return result ;
 
                     }
+           $scope.isCompleted = function(elem){
+                      var result = elem.includes('COMPLETED');
+                      return result ;
+
+           }
+           $scope.isAssigned = function(executors,user,id){
+
+                                     if(!executors.includes(user.username)) $scope.assign(user,id);
+                                     else {
+                                        alert('исполнитель уже назначен','danger');
+                                        return;
+                                     }
+
+                               }
 
 });

@@ -30,8 +30,9 @@ angular.module('ttsystem-front').controller('ordersController', function ($scope
 
         }
 
-    $scope.getDescription = function(description){
-        $scope.mytext = description;
+    $scope.getDescription = function(description, commits){
+        $scope.myText = description;
+        $scope.myCommits = commits;
     }
 
 

@@ -26,7 +26,7 @@
     <h3>Все заявки</h3>
     <p></p>
     <div ng-show="isAllowed('EMPLOYEE')">
-
+        <div id="AlertInAssign"></div>
         <div class="accordion accordion-flush" id="accordion"  ng-repeat="o in OrdersPage.content">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="fh{{o.id}}">
@@ -36,12 +36,7 @@
                 </h2>
                 <div id="fc{{o.id}}" class="accordion-collapse collapse" aria-labelledby="fh{{o.id}}" data-bs-parent="#accordion">
                     <div class="accordion-body">
-
-
-
                         <table class="table table-primary table-borderless">
-
-
                             <thead>
                             <tr>
 
@@ -84,7 +79,7 @@
                             <tr>
                                 <td colspan="2">{{o.createdAt}}</td>
 
-                                <td colspan="2">{{o.executed}}</td>
+                                <td colspan="2">{{o.completedAt}}</td>
                             </tr>
                             </tbody>
                             <thead>
@@ -97,7 +92,7 @@
                             <tbody>
                             <tr>
                                 <td colspan="2" class="table-active">
-                                    <button ng-show="isCreated(o.status)" type="button" ng-click="info()" class="btn btn-warning">{{o.executors}}</button></td>
+                                    <button type="button" ng-click="info()" class="btn btn-warning">{{o.executors}}</button></td>
                                 <td  class="table-active">
                                     <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe()" class="btn btn-warning">Взять</button>
                                     <button ng-show="!isCreated(o.status)" type="button" disabled class="btn btn-outline-warning">Взять</button>
@@ -105,15 +100,18 @@
                                 <td class="table-active">
                                     <div ng-show="isAllowed('MANAGER')">
                                         <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button ng-show="!isCompleted(o.status)" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             Назначить
                                         </button>
+                                            <button ng-show="isCompleted(o.status)" class="btn btn-outline-secondary" type="button" disabled  aria-expanded="false">
+                                                Назначить
+                                            </button>
                                         <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
                                             <div ng-repeat="e in Employers.list">
 
                                                 <li>
 
-                                                    <button  type="button" ng-click="assign(e)" class="btn btn-secondary dropdown-item">{{e.username}}</button>
+                                                    <button  type="button" ng-click="isAssigned(o.executors,e,o.id)" class="btn btn-secondary dropdown-item">{{e.username}}</button>
                                                 </li>
 
 
@@ -134,20 +132,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td colspan="4" class="table-active">{{o.commits}}</td>
-                            </tr>
-                            <tr ng-show="isAllowed('MANAGER')&&isCreated(o.status)">
-                                <td colspan="3" class="table-active">
-                                    Если заявка не относится к отделу IT ее можно завершить тут с комментарием по умолчанию
-                                </td>
-                                <td class="table-active">
-                                <button type="button" ng-click="cancelOrder(o.id)" class="btn btn-outline-danger">Отклонить</button>
+
+                                <tr ng-repeat="c in o.commits track by $index">
+                                    <td  colspan="4" class="table-active">{{c}}</td>
+                                </tr>
 
 
+                                <tr ng-show="isAllowed('MANAGER')&&isCreated(o.status)">
+                                    <td colspan="3" class="table-active">
+                                        Если заявка не относится к отделу IT ее можно завершить тут с комментарием по умолчанию
+                                    </td>
+                                    <td class="table-active">
+                                    <button type="button" ng-click="cancelOrder(o.id)" class="btn btn-outline-danger">Отклонить</button>
 
-                            </td>
-                            </tr>
+                                    </td>
+                                </tr>
 
                             </tbody>
 
@@ -157,7 +156,7 @@
 
 
                         </table>
-                        <div id="AlertInAssign"></div>
+
 
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight{{o.id}}" aria-labelledby="offcanvasRightLabel">
                             <div class="offcanvas-header">

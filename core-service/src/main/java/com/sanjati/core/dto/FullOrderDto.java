@@ -9,7 +9,7 @@ public class FullOrderDto {
     private String description;
     private String status;
     private String executors;
-    private String commits;
+    private List<String> commits;
     private String createdAt;
     private String completedAt;
 
@@ -61,13 +61,7 @@ public class FullOrderDto {
         this.executors = executors;
     }
 
-    public String getCommits() {
-        return commits;
-    }
 
-    public void setCommits(String commits) {
-        this.commits = commits;
-    }
 
     public String getCreatedAt() {
         return createdAt;
@@ -83,6 +77,14 @@ public class FullOrderDto {
 
     public void setCompletedAt(String completedAt) {
         this.completedAt = completedAt;
+    }
+
+    public List<String> getCommits() {
+        return commits;
+    }
+
+    public void setCommits(List<String> commits) {
+        this.commits = commits;
     }
 
     public FullOrderDto() {

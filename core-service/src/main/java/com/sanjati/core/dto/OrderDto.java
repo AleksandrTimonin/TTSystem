@@ -1,5 +1,9 @@
 package com.sanjati.core.dto;
 
+import com.sanjati.core.entities.Commit;
+
+import java.util.List;
+
 public class OrderDto {
     private Long id;
     private String createdAt;
@@ -7,14 +11,14 @@ public class OrderDto {
     private String title;
     private String description;
 
-    private String commits;
+    private List<String> commits;
 
 
-    public String getCommits() {
+    public List<String> getCommits() {
         return commits;
     }
 
-    public void setCommits(String commits) {
+    public void setCommits(List<String> commits) {
         this.commits = commits;
     }
 
@@ -58,7 +62,7 @@ public class OrderDto {
         this.description = description;
     }
 
-    public OrderDto(Long id, String time, String status, String title, String description,String commits) {
+    public OrderDto(Long id, String time, String status, String title, String description, List<String> commits) {
         this.id = id;
         this.createdAt = time;
         this.status = status;

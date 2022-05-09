@@ -77,8 +77,8 @@
                     </h3>
                 </div>
 
-                <div>
-                    {{myCommits}}
+                <div ng-repeat="commit in myCommits track by $index">
+                    {{commit}}
                 </div>
 
 

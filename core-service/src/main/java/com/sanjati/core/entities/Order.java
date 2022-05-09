@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
+
 
 @Entity
 @Table(name = "orders")
@@ -36,8 +38,7 @@ public class Order {
     private String status;
     @Column(name = "executors")
     private String executors;
-    @Column(name = "executor_commit")
-    private String commit;
+
 
     @Column(name = "completed_at")
     private LocalDateTime completed;
@@ -52,4 +53,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<ExecuteProcess> processes;
+
+    @OneToMany(mappedBy = "order",fetch = EAGER)
+    private List<Commit> commits;
 }

@@ -38,7 +38,8 @@ create table commits (
         order_id            bigserial not null,
         executor_commit     varchar(2000),
         created_at          timestamp default current_timestamp,
-        updated_at          timestamp default current_timestamp
+        updated_at          timestamp default current_timestamp,
+        FOREIGN KEY (order_id)  REFERENCES orders (id)
 
 );
 
@@ -57,6 +58,8 @@ values ( true,
 
 insert into processes (order_id, is_active,executor)
 values (1,true,'admin');
+insert into commits (order_id, executor_commit)
+values (1,'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
 
 

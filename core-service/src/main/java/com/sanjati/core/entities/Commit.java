@@ -10,42 +10,28 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "processes")
+@Table(name = "commits")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExecuteProcess {
+public class Commit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-
-    @Column(name = "is_active")
-    private Boolean isActive;
-
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
-
-
-    @Column(name = "executor")
-    private String executor;
-
+    @Column(name = "executor_commit")
+    private String commit;
 
     @CreationTimestamp
-    @Column(name = "assigned_at")
-    private LocalDateTime assignedAt;
-    @Column(name = "accepted_at")
-    private LocalDateTime acceptedAt;
-    @Column(name = "postponed_at")
-    private LocalDateTime postponedAt;
-    @Column(name = "finished_at")
-    private LocalDateTime finishedAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
 }
-//created assigned accepted postponed canceled completed

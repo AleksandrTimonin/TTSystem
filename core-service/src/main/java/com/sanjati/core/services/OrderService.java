@@ -6,9 +6,12 @@ import com.sanjati.api.utils.AppFormatter;
 import com.sanjati.core.dto.OrderDetailsDto;
 import com.sanjati.core.dto.SuccessOrderDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
+import com.sanjati.core.entities.Commit;
 import com.sanjati.core.entities.ExecuteProcess;
 import com.sanjati.core.entities.Order;
+import com.sanjati.core.repositories.CommitsRepository;
 import com.sanjati.core.repositories.OrdersRepository;
+import com.sanjati.core.repositories.ProcessesRepository;
 import com.sanjati.core.repositories.specifications.OrderSpecifications;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,15 +22,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import java.util.Optional;
+
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final OrdersRepository ordersRepository;
+    private final CommitsRepository commitsRepository;
+    private final ProcessesRepository processesRepository;
 
     //status :
     //created assigned accepted executed deferred
@@ -83,6 +89,7 @@ public class OrderService {
         Order order = ordersRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Order not found"));
         order.setStatus(status);
 
+
     }
     @Transactional
     public SuccessOrderDto assignById(Long id, String assignedUsername,String username){
@@ -90,32 +97,41 @@ public class OrderService {
 
     //created assigned accepted postponed canceled completed
 
-
         ExecuteProcess executeProcess = new ExecuteProcess();//id,order_id,executor,assigned!,accept,postopned,finished
-
+        executeProcess.setOrder(order);
+        executeProcess.setIsActive(true);
         executeProcess.setExecutor(assignedUsername);
+        processesRepository.save(executeProcess);
         order.getProcesses().add(executeProcess);
+        String executors;
+
+        if(order.getExecutors()==null) executors = assignedUsername;
+        else executors = order.getExecutors() + ", " + assignedUsername;
+        order.setExecutors(executors);
+
         if(order.getStatus().equals("CREATED"))order.setStatus("ASSIGNED");
-        commit(" : назначен исполнитель : ",username,order);
-
-
-
-
-
-         return new SuccessOrderDto(order.getUpdatedAt().format(AppFormatter.getFormatter()),order.getExecutors(),order.getId());
+        commit("назначен исполнитель",username,order,assignedUsername);
+        return new SuccessOrderDto(order.getUpdatedAt().format(AppFormatter.getFormatter()),order.getExecutors(),order.getId());
     }
-    public void commit(String message,String username, Order order){
 
-        StringBuilder commit = new StringBuilder();
-        if(order.getCommit()!=null) commit.append(order.getCommit());
-        commit.append("\\n").append(LocalDateTime.now().format(AppFormatter.getFormatter()))
-                .append(">>> ")
+    private void commit(String message, String username, Order order,String assignedUsername) {
+       StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(LocalDateTime.now().format(AppFormatter.getFormatter()))
+                .append(" >>> ")
                 .append(username)
                 .append(" : ")
-                .append(message);
+                .append(message)
+                .append(" - ")
+                .append(assignedUsername);
 
-        order.setCommit(commit.toString());
+        Commit c = new Commit();
+        c.setOrder(order);
+        c.setCommit(stringBuilder.toString());
+        commitsRepository.save(c);
+        order.getCommits().add(c);
+
     }
+
 
     @Transactional
     public Page<Order> findAllFullOrders(String oldDate, String newDate, Integer page) {
@@ -142,8 +158,8 @@ public class OrderService {
         Order order = findById(id).orElseThrow(()->new ResourceNotFoundException("Ордер в базе не найден"));
         order.setCompleted(LocalDateTime.now());
         order.setStatus("COMPLETED");
-        commit( "не соотвествует профилю отдела, либо выполнение невозможно",username,order);
+        commit( "невозможно выполнить, или не соотвествует профилю отдела",username,order,"");
         ordersRepository.save(order);
-        return new SuccessOrderDto(order.getCompleted().format(AppFormatter.getFormatter()),null,id);
+        return new SuccessOrderDto(order.getCompleted().format(AppFormatter.getFormatter()),username,id);
     }
 }
