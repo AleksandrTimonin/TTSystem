@@ -13,7 +13,7 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
             }).then(function (response) {
                 $scope.OrdersPage = response.data;
                 $scope.paginationArray = $scope.generatePagesIndexes(1, $scope.OrdersPage.totalPages);
-                console.log(response.data.content)
+
 
             });
         };
@@ -26,7 +26,7 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
 
                         $scope.Employers = response.data;
 
-                        console.log(response.data);
+
 
 
                     });
@@ -95,6 +95,17 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
 
                        });
                    };
+ $scope.info = function(executors, id){
+ $http({
+                 url: contextPathCore + '/processes',
+                 method: 'POST',
+                 data: {username : executors, orderId : id}
+
+             }).then(function (response) {
+                   console.log(response.data);
+                $scope.processes = response.data;
+             });
+ }
  $scope.loadUsersInfo = function (username) {
          $http({
                  url: contextPathCore + '/info',

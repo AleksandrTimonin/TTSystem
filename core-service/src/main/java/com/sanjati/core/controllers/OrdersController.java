@@ -66,7 +66,7 @@ public class OrdersController {
         return orderService.assignById(id,username,username);
     }
     @PostMapping("/assign")
-    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody AssignUserDto dto) {
+    public SuccessOrderDto assign(@RequestHeader String username, @RequestHeader String role, @RequestBody IncomeUsernameOrderIdDto dto) {
 
         return orderService.assignById(dto.getOrderId(), dto.getUsername(),username);
     }

@@ -1,8 +1,6 @@
 package com.sanjati.core.dto;
 
-import com.sanjati.api.auth.SmallUserDto;
-
-public class AssignUserDto {
+public class IncomeUsernameOrderIdDto {
     String username;
     Long orderId;
 
@@ -22,11 +20,11 @@ public class AssignUserDto {
         this.orderId = orderId;
     }
 
-    public AssignUserDto(String username, Long orderId) {
+    public IncomeUsernameOrderIdDto(String username, Long orderId) {
         this.username = username;
         this.orderId = orderId;
     }
 
-    public AssignUserDto() {
+    public IncomeUsernameOrderIdDto() {
     }
 }
