@@ -2,8 +2,9 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
    const contextPathCore = $localStorage.corePath;
 
      $scope.loadOrders = function (pageIndex = 1) {
+     console.log('loadOrders');
                 $http({
-                    url: contextPathCore + '/orders/management',
+                    url: contextPathCore + '/processes/execution',
                     method: 'GET',
                     params: {
                         p: pageIndex,
