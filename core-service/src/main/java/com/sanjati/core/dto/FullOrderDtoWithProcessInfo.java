@@ -2,7 +2,7 @@ package com.sanjati.core.dto;
 
 import java.util.List;
 
-public class FullOrderDto {
+public class FullOrderDtoWithProcessInfo {
     private Long id;
     private String username;
     private String title;
@@ -13,7 +13,43 @@ public class FullOrderDto {
     private String createdAt;
     private String completedAt;
 
+    private Long processId;
 
+    private String assignedAt;
+    private String acceptedAt;
+    private String finishedAt;
+
+    public Long getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(Long processId) {
+        this.processId = processId;
+    }
+
+    public String getAssignedAt() {
+        return assignedAt;
+    }
+
+    public void setAssignedAt(String assignedAt) {
+        this.assignedAt = assignedAt;
+    }
+
+    public String getAcceptedAt() {
+        return acceptedAt;
+    }
+
+    public void setAcceptedAt(String acceptedAt) {
+        this.acceptedAt = acceptedAt;
+    }
+
+    public String getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(String finishedAt) {
+        this.finishedAt = finishedAt;
+    }
 
     public Long getId() {
         return id;
@@ -89,6 +125,6 @@ public class FullOrderDto {
         this.commits = commits;
     }
 
-    public FullOrderDto() {
+    public FullOrderDtoWithProcessInfo() {
     }
 }

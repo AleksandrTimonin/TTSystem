@@ -27,7 +27,6 @@ create table processes
 
     assigned_at         timestamp default current_timestamp,
     accepted_at         timestamp,
-    postponed_at        timestamp,
     finished_at         timestamp,
 
     updated_at          timestamp default current_timestamp,

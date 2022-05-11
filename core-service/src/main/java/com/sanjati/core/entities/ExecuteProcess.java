@@ -39,8 +39,6 @@ public class ExecuteProcess {
     private LocalDateTime assignedAt;
     @Column(name = "accepted_at")
     private LocalDateTime acceptedAt;
-    @Column(name = "postponed_at")
-    private LocalDateTime postponedAt;
     @Column(name = "finished_at")
     private LocalDateTime finishedAt;
     @UpdateTimestamp

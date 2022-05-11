@@ -4,7 +4,7 @@ public class ExecuteProcessDto {
     private String executor;
     private String assignedAt;
     private String acceptedAt;
-    private String postponedAt;
+    private String finishedAt;
 
     public String getExecutor() {
         return executor;
@@ -30,22 +30,22 @@ public class ExecuteProcessDto {
         this.acceptedAt = acceptedAt;
     }
 
-    public String getPostponedAt() {
-        return postponedAt;
+    public String getFinishedAt() {
+        return finishedAt;
     }
 
-    public void setPostponedAt(String postponedAt) {
-        this.postponedAt = postponedAt;
+    public void setFinishedAt(String finishedAt) {
+        this.finishedAt = finishedAt;
     }
 
     public ExecuteProcessDto() {
     }
 
-    public ExecuteProcessDto(String executor, String assignedAt, String acceptedAt, String postponedAt) {
+    public ExecuteProcessDto(String executor, String assignedAt, String acceptedAt, String finishedAt) {
         this.executor = executor;
         this.assignedAt = assignedAt;
         this.acceptedAt = acceptedAt;
-        this.postponedAt = postponedAt;
+        this.finishedAt = finishedAt;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ExecuteProcessDto {
                 "executor='" + executor + '\'' +
                 ", assignedAt='" + assignedAt + '\'' +
                 ", acceptedAt='" + acceptedAt + '\'' +
-                ", postponedAt='" + postponedAt + '\'' +
+                ", postponedAt='" + finishedAt + '\'' +
                 '}';
     }
 }

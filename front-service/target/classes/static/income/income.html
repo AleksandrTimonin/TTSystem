@@ -94,7 +94,7 @@
                                 <td colspan="2" class="table-active">
                                     <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight{{o.id}}x2"ng-click="info(o.executors,o.id)" aria-controls="offcanvasRight{{o.id}}x2">{{o.executors}}</button></td>
                                 <td  class="table-active">
-                                    <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe()" class="btn btn-warning">Взять</button>
+                                    <button ng-show="isCreated(o.status)" type="button" ng-click="assignMe(o.id)" class="btn btn-warning">Взять</button>
                                     <button ng-show="!isCreated(o.status)" type="button" disabled class="btn btn-outline-warning">Взять</button>
                                 </td>
                                 <td class="table-active">
@@ -232,7 +232,7 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">Закрыл</th>
-                                            <td>{{proc.postponedAt}}</td>
+                                            <td>{{proc.finishedAt}}</td>
                                         </tr>
                                     </div>
 

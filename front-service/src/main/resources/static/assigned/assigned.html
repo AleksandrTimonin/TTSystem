@@ -36,63 +36,73 @@
             <div id="fc{{o.id}}" class="accordion-collapse collapse" aria-labelledby="fh{{o.id}}" data-bs-parent="#accordion">
                 <div class="accordion-body">
                     <table class="table table-primary">
-                        <thead>
+
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">ФИО</th>
-                            <th scope="col">Место</th>
-                            <th scope="col">Связь</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>{{UserDto.firstName}}</td>
-                            <td>{{UserDto.company}}</td>
-                            <td>{{UserDto.email}}</td>
+                            <th scope="row">ID   :</th>
+                            <td>{{o.id}}</td>
                         </tr>
                         <tr>
-                            <th scope="row">2</th>
-                            <td>{{UserDto.lastName}}</td>
-                            <td>{{UserDto.building}}</td>
-                            <td>{{UserDto.phone}}</td>
+                            <th scope="row">Пользователь :</th>
+                            <td>{{o.username}}</td>
+
                         </tr>
                         <tr>
-                            <th scope="row">3</th>
-                            <td>{{UserDto.patronymic}}</td>
-                            <td>{{UserDto.office}}</td>
-                            <td>{{UserDto.username}}</td>
-                        </tr>
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Статус</th>
-                            <th scope="col">Открыт</th>
-                            <th scope="col">Описание</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>{{o.status}}</td>
-                            <td>{{o.time}}</td>
-                            <td>{{o.description}}</td>
-                        </tr>
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Назначен</th>
-                            <th scope="col">Принят</th>
-                            <th scope="col">Закрыт</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>{{o.assigned}}</td>
-                            <td>{{o.startProgress}}</td>
-                            <td>{{o.executed}}</td>
+                            <th scope="row">Тема :</th>
+                            <td>{{o.title}}</td>
+
                         </tr>
 
-                        </tbody>
+                        <tr>
+                            <th scope="row">Описание   :</th>
+                            <td>{{o.description}}</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Коментарии :</th>
+                            <td>{{o.description}}</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Создан :</th>
+                            <td>{{o.createdAt}}</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Назначен :</th>
+                            <td>{{o.assignedAt}}</td>
+
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Принят :</th>
+                            <td>{{o.acceptedAt}}</td>
+                            <td>
+                                <button ng-show="isNotAccepted(o.acceptedAt)" type="button" ng-click="accept(o.processId)" class="btn btn-warning">Приступить</button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Закрыт :</th>
+                            <td>{{o.finishedAt}}</td>
+                            <td>
+                                <button ng-show="!isNotAccepted(o.acceptedAt)&&isNotFinished(o.finishedAt)" type="button" ng-click="finish(o.processId)" class="btn btn-warning">Завершить</button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">Прикрепить :</th>
+                            <td>
+                                <form novalidate>
+
+                                    <textarea class="form-control" id="validationDefault03" placeholder="Комментарий" rows="3" ng-model="commit" required></textarea>
+                                    <p></p>
+
+                                </form>
+                            </td>
+                        </tr>
+
+
+
                     </table>
                 </div>
             </div>

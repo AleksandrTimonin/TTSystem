@@ -3,6 +3,8 @@ package com.sanjati.core.services;
 
 
 import com.sanjati.api.utils.AppFormatter;
+import com.sanjati.core.converters.OrderConverter;
+import com.sanjati.core.dto.FullOrderDtoWithProcessInfo;
 import com.sanjati.core.dto.OrderDetailsDto;
 import com.sanjati.core.dto.SuccessOrderDto;
 import com.sanjati.api.exceptions.ResourceNotFoundException;
@@ -13,6 +15,7 @@ import com.sanjati.core.repositories.CommitsRepository;
 import com.sanjati.core.repositories.OrdersRepository;
 import com.sanjati.core.repositories.ProcessesRepository;
 import com.sanjati.core.repositories.specifications.OrderSpecifications;
+import com.sanjati.core.repositories.specifications.ProcessesSpecifications;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,6 +28,7 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -34,6 +38,7 @@ public class OrderService {
     private final OrdersRepository ordersRepository;
     private final CommitsRepository commitsRepository;
     private final ProcessesRepository processesRepository;
+    private final OrderConverter orderConverter;
 
     //status :
     //created assigned accepted executed deferred
@@ -80,6 +85,34 @@ public class OrderService {
 
 
         return ordersRepository.findAll(spec,PageRequest.of(page-1,10));
+    }
+    public Page<FullOrderDtoWithProcessInfo> findAllByExecutor(String oldDate, String newDate, Integer page, String executor) {
+        Specification<Order> spec = Specification.where(null);
+
+        spec = spec.and((OrderSpecifications.executorLike(executor)));
+        spec = spec.and(OrderSpecifications.isActuallyOrder());
+
+
+        if (oldDate != null) {
+            LocalDateTime oldDateFormat = LocalDateTime.parse(oldDate.substring(0,22));
+            spec = spec.and(OrderSpecifications.timeGreaterOrEqualsThan(oldDateFormat));
+            log.warn(oldDate);
+        }
+        if (newDate != null) {
+            LocalDateTime newDateFormat = LocalDateTime.parse(newDate.substring(0,22));
+            log.warn(newDate);
+            spec = spec.and(OrderSpecifications.timeLessThanOrEqualsThan(newDateFormat));
+        }
+        Page<Order> orders = ordersRepository.findAll(spec,PageRequest.of(page-1,10));
+
+
+        Page<FullOrderDtoWithProcessInfo> dtos = orders.map(o->  orderConverter.entityToFullOrderDtoWithProcessInfo(o,executor));
+
+
+
+
+
+        return dtos;
     }
     public Optional<Order> findById(Long id) {
         return ordersRepository.findById(id);

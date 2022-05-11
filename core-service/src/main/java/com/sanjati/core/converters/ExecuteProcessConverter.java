@@ -17,8 +17,8 @@ public class ExecuteProcessConverter {
         dto.setAssignedAt(process.getAssignedAt().format(AppFormatter.getFormatter()));
         if(process.getAcceptedAt()!=null)dto.setAcceptedAt(process.getAcceptedAt().format(AppFormatter.getFormatter()));
         else dto.setAcceptedAt("пока не принят");
-        if(process.getPostponedAt()!=null)dto.setPostponedAt(process.getPostponedAt().format(AppFormatter.getFormatter()));
-        else dto.setPostponedAt("пока не завершён");
+        if(process.getFinishedAt()!=null)dto.setFinishedAt(process.getFinishedAt().format(AppFormatter.getFormatter()));
+        else dto.setFinishedAt("пока не завершён");
 
         return dto;
     }
