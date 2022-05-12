@@ -35,63 +35,63 @@
             </h2>
             <div id="fc{{o.id}}" class="accordion-collapse collapse" aria-labelledby="fh{{o.id}}" data-bs-parent="#accordion">
                 <div class="accordion-body">
+                    <div id="alert"></div>
                     <table class="table table-primary">
 
+
                         <tr>
-                            <th scope="row">ID   :</th>
-                            <td>{{o.id}}</td>
+                            <th scope="g-col-4">ID   :</th>
+                            <td scope="g-col-8">{{o.id}}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Пользователь :</th>
-                            <td>{{o.username}}</td>
+                            <th scope="g-col-4">Пользователь :</th>
+                            <td scope="g-col-8">{{o.username}}</td>
 
                         </tr>
                         <tr>
-                            <th scope="row">Тема :</th>
-                            <td>{{o.title}}</td>
+                            <th scope="g-col-4">Тема :</th>
+                            <td scope="g-col-8">{{o.title}}</td>
 
                         </tr>
 
                         <tr>
-                            <th scope="row">Описание   :</th>
+                            <th scope="g-col-4">Описание и комментарии  :</th>
                             <td>{{o.description}}</td>
 
                         </tr>
-                        <tr>
-                            <th scope="row">Коментарии :</th>
-                            <td>{{o.description}}</td>
+                        <tr ng-repeat="c in o.commits">
+                            <th scope="g-col-4"></th>
+                            <td scope="g-col-8">{{c}}</td>
 
                         </tr>
                         <tr>
-                            <th scope="row">Создан :</th>
-                            <td>{{o.createdAt}}</td>
+                            <th scope="g-col-4">Создан :</th>
+                            <td scope="g-col-8">{{o.createdAt}}</td>
 
                         </tr>
                         <tr>
-                            <th scope="row">Назначен :</th>
-                            <td>{{o.assignedAt}}</td>
+                            <th scope="g-col-4">Назначен :</th>
+                            <td scope="g-col-8">{{o.assignedAt}}</td>
 
                         </tr>
 
                         <tr>
-                            <th scope="row">Принят :</th>
-                            <td>{{o.acceptedAt}}</td>
-                            <td>
-                                <button ng-show="isNotAccepted(o.acceptedAt)" type="button" ng-click="accept(o.processId)" class="btn btn-warning">Приступить</button>
-                            </td>
+                            <th scope="g-col-4">Принят :</th>
+                            <td scope="g-col-8">{{o.acceptedAt}}</td>
+
 
                         </tr>
+
                         <tr>
-                            <th scope="row">Закрыт :</th>
-                            <td>{{o.finishedAt}}</td>
-                            <td>
-                                <button ng-show="!isNotAccepted(o.acceptedAt)&&isNotFinished(o.finishedAt)" type="button" ng-click="finish(o.processId)" class="btn btn-warning">Завершить</button>
-                            </td>
+                            <th scope="g-col-4">Закрыт :</th>
+                            <td scope="g-col-8">{{o.finishedAt}}</td>
+
 
                         </tr>
-                        <tr>
-                            <th scope="row">Прикрепить :</th>
-                            <td>
+
+                        <tr ng-show="(!isNotAccepted(o.acceptedAt))&&isNotFinished(o.finishedAt)">
+                            <th scope="g-col-4">Прикрепить :</th>
+                            <td scope="g-col-8">
                                 <form novalidate>
 
                                     <textarea class="form-control" id="validationDefault03" placeholder="Комментарий" rows="3" ng-model="commit" required></textarea>
@@ -100,6 +100,19 @@
                                 </form>
                             </td>
                         </tr>
+
+                        <tr>
+                            <th scope="g-col-12">
+                                <button ng-show="isNotAccepted(o.acceptedAt)" type="button" ng-click="accept(o.processId)" class="btn btn-warning">Приступить</button>
+                             </th>
+                            <th scope="g-col-6">
+                                <button ng-show="(!isNotAccepted(o.acceptedAt))&&isNotFinished(o.finishedAt)" type="button" ng-click="postpone(o.processId)" class="btn btn-outline-danger">отложить</button>
+                            </th>
+                            <td scope="g-col-6">
+                                <button ng-show="(!isNotAccepted(o.acceptedAt))&&isNotFinished(o.finishedAt)" type="button" ng-click="tryToFinish(o.processId)" class="btn btn-outline-warning">Завершить</button>
+                            </td>
+                        </tr>
+
 
 
 

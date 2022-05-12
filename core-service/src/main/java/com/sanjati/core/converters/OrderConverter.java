@@ -91,6 +91,7 @@ public class OrderConverter {
         fullData.setDescription(order.getDescription());
         fullData.setUsername(order.getUsername());
         fullData.setStatus(order.getStatus());
+        fullData.setOnConfirm(exec.getOnConfirm());
 
         if(order.getExecutors()!=null) fullData.setExecutors(order.getExecutors());
         else fullData.setExecutors("не назначен");

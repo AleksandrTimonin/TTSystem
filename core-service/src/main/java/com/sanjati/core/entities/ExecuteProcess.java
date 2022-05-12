@@ -23,6 +23,8 @@ public class ExecuteProcess {
 
     @Column(name = "is_active")
     private Boolean isActive;
+    @Column(name = "on_confirm")
+    private Boolean onConfirm;
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")

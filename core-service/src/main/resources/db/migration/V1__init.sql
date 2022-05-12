@@ -21,6 +21,7 @@ create table processes
     id                  bigserial primary key,
     order_id            bigserial not null,
     is_active           boolean not null,
+    on_confirm          boolean not null,
 
     executor            varchar(100) not null,
 
@@ -56,7 +57,7 @@ values ( true,
         'admin');
 
 insert into processes (order_id, is_active,executor)
-values (1,true,'admin');
+values (1,true,false,'admin');
 insert into commits (order_id, executor_commit)
 values (1,'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 

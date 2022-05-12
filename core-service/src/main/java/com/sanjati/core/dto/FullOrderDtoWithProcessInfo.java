@@ -18,6 +18,15 @@ public class FullOrderDtoWithProcessInfo {
     private String assignedAt;
     private String acceptedAt;
     private String finishedAt;
+    private Boolean onConfirm;
+
+    public Boolean getOnConfirm() {
+        return onConfirm;
+    }
+
+    public void setOnConfirm(Boolean onConfirm) {
+        this.onConfirm = onConfirm;
+    }
 
     public Long getProcessId() {
         return processId;

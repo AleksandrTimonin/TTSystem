@@ -69,7 +69,7 @@ angular.module('ttsystem-front').controller('incomeController', function ($scope
                                 id : orderId
                           }
                       }).then(function successCallback(response) {
-                          alert('Заявка ID: '+response.data.id+' отклонена. Время : ' + response.data.date,'success');
+                          alert('Заявка ID: '+response.data.id+' назначена. Время : ' + response.data.date,'success');
                          $scope.loadOrders();
 
                       }, function errorCallback(response) {
