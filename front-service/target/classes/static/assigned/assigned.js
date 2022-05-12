@@ -43,6 +43,16 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
                     return result ;
 
               }
+              $scope.isNotAccepted = function(elem){
+                     var result = "пока не принят".includes(elem);
+                     return result ;
+
+                }
+              $scope.isNotFinished = function(elem){
+                     var result = "процесс не завешён".includes(elem);
+                      return result ;
+
+               }
               if($scope.isAllowed('EMPLOYEE')){
                     $scope.loadOrders();
               }
