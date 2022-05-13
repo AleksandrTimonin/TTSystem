@@ -1,6 +1,5 @@
 package com.sanjati.core.controllers;
 
-import com.sanjati.core.converters.OrderConverter;
 import com.sanjati.core.dto.*;
 import com.sanjati.core.services.OrderService;
 import com.sanjati.core.services.ProcessesService;
@@ -33,6 +32,18 @@ public class ProcessesController {
             page = 1;
         }
         return orderService.findAllByExecutor(oldDate,newDate,page,username);
+    }
+    @PostMapping("/accept")
+    public SuccessOrderDto accept(@RequestHeader String username, @RequestHeader String role, @RequestBody SmallDto dto){
+        return processesService.acceptByIdAndUsername(username,dto.getId());
+    }
+    @PostMapping("/postpone")
+    public SuccessOrderDto postpone(@RequestHeader String username, @RequestHeader String role, @RequestBody SmallDto dto){
+        return processesService.postponeByIdAndUsername(username,dto.getId());
+    }
+    @PostMapping("/finish")
+    public SuccessOrderDto finish(@RequestHeader String username, @RequestHeader String role, @RequestBody SmallDto dto){
+        return processesService.finishedByIdAndUsername(username, dto.getId(), dto.getMessage());
     }
 
 }

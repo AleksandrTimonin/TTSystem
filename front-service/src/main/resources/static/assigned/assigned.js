@@ -67,7 +67,7 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
           $http({
                   url: contextPathCore + '/processes/accept',
                   method: 'POST' ,
-                  data:{id : processId}
+                  data:{id : processId, message : null}
 
            }).then(function successCallback(response) {
                             alert('Вы успешно приступили к работе над заявкой. Время регистрации : ' + response.data.date,'success');
@@ -85,7 +85,7 @@ angular.module('ttsystem-front').controller('assignedController', function ($sco
            $http({
                    url: contextPathCore + '/processes/postpone',
                    method: 'POST' ,
-                   data:{id : processId}
+                   data:{id : processId, message : null}
 
             }).then(function successCallback(response) {
                              alert('Вы успешно отложили работу над заявкой. Время регистрации : ' + response.data.date,'success');

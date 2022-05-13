@@ -10,4 +10,7 @@ public class ProcessesSpecifications {
     public static Specification<ExecuteProcess> idEqual(Long id) {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("order"), id);
     }
+    public static Specification<ExecuteProcess> isActive() {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("is_active"));
+    }
 }
